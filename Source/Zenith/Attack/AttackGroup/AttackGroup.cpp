@@ -2,6 +2,9 @@
 
 
 #include "AttackGroup.h"
+
+#include "Zenith/Library/ZenithFunctionLibrary.h"
+
 void AAttackGroup::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -46,6 +49,17 @@ void AAttackGroup::ReinitializeAttack(const float InitDamage, const bool bPierce
 
 void AAttackGroup::DebugClusterMessage()
 {
+	if(GEngine)
+	{
+		//printout Cluster information, name, offcenter distance etc.
+		UZenithFunctionLibrary::DxPrint("--------------------------------------", true);
+		GEngine->AddOnScreenDebugMessage(-1, GetWorld()->DeltaTimeSeconds,
+			FColor::Purple, "Cluster Name: " + GetName() + " Movement Speed = " +
+			FString::SanitizeFloat(MovementSpeed) + " Off Center Distance = " +
+			FString::SanitizeFloat(OffCenterDistance) + " Cluster Size = " +
+			FString::FromInt(ClusterSize));
+	}
+	
 	for(const AAttack * Attack: Attacks)
 	{
 		Attack->DebugAttackMessage();

@@ -16,6 +16,7 @@ void UAttackComponent::TickComponent(float DeltaTime, ELevelTick TickType,
                                      FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if(AttackCluster)
 	AttackCluster->DebugClusterMessage();
 }
 
@@ -130,7 +131,6 @@ void UAttackComponent::IncreaseDamageArea(float DamageArea)
 void UAttackComponent::IncreaseMovementSpeed(float MovementSpeed)
 {
 	AttackProperty.MovementSpeed += MovementSpeed;
-	UpdateCluster();
 }
 
 
@@ -139,20 +139,18 @@ void UAttackComponent::IncreaseClusterSize(int32 ClusterSize)
 	AttackProperty.ClusterSize += ClusterSize;
 }
 
-void UAttackComponent::AddAttackModifier(FAttackModifier* Modifier)
+void UAttackComponent::AddAttackModifier(FAttackModifier * Modifier)
 {
-	if(Modifier)
 	AttackModifiers.Add(Modifier);
-
 	//recalculate the attack property
 	ApplyModifer();
 }
 
-void UAttackComponent::RemoveAttackModifier(FAttackModifier* Modifier)
+void UAttackComponent::RemoveAttackModifier(FAttackModifier * Modifier)
 {
-	if(Modifier && AttackModifiers.Contains(Modifier))
+	if(AttackModifiers.Contains(Modifier))
 	{
-		AttackModifiers.Remove(Modifier);
+		AttackModifiers.RemoveSingle(Modifier);
 	}
 }
 
@@ -161,13 +159,16 @@ void UAttackComponent::ApplyModifer()
 
 	//Reset the attack property
 	AttackProperty = AttackPropertyDefault;
+	//printout the length of the attack modifiers
+	UE_LOG(LogTemp, Warning, TEXT("Attack Modifiers Length: %d"), AttackModifiers.Num());
 	for(FAttackModifier * AttackModifier: AttackModifiers)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Attack Modifier: %s"), *AttackModifier->ItemName.ToString());
 		for(FModifier Modifier: AttackModifier->Modifiers)
 		{
 			//print out the modifier name
-			UE_LOG(LogTemp, Warning, TEXT("Modifier Name: %s"), *UZenithFunctionLibrary::EnumToString(Modifier.ModifierName));
+			UE_LOG(LogTemp, Warning, TEXT("Modifier Name: %s Increase Amount %f"),
+				*UZenithFunctionLibrary::EnumToString(Modifier.ModifierName), Modifier.Amount);
 			switch (Modifier.ModifierName)
 			{
 			case EAttackModifier::Flat_Damage:
@@ -196,6 +197,7 @@ void UAttackComponent::ApplyModifer()
 				break;
 			case EAttackModifier::Damage_Area:
 				AttackProperty.DamageArea += Modifier.Amount;
+				UE_LOG(LogTemp, Warning, TEXT("Damage Area: %f"), AttackProperty.DamageArea);
 				break;
 			case EAttackModifier::None:
 				break;
@@ -207,58 +209,11 @@ void UAttackComponent::ApplyModifer()
 	ReinitializeAttackProperty();
 }
 
-void UAttackComponent::RemoveModifier(FAttackModifier * ModifierToAdd)
-{
-	if(ModifierToAdd && AttackModifiers.Contains(ModifierToAdd))
-	{
-		AttackModifiers.Remove(ModifierToAdd);
-		RemoveModifierEffect(ModifierToAdd);
-	} 
-	
-}
-
-void UAttackComponent::RemoveModifierEffect(FAttackModifier* ModifierToRemove)
-{
-	for(auto [ModifierName, Amount]: ModifierToRemove->Modifiers)
-	{
-		switch (ModifierName)
-		{
-		case EAttackModifier::Flat_Damage:
-			AttackProperty.Damage -= Amount;
-			break;
-		case EAttackModifier::Percentage_Damage:
-			AttackProperty.Damage /= Amount;
-			break;
-		case EAttackModifier::Attack_Speed:
-			AttackProperty.AttackSpeed -= Amount;
-			break;
-		case EAttackModifier::Movement_Speed:
-			AttackProperty.MovementSpeed -= Amount;
-			break;
-		case EAttackModifier::OffCenterDistance:
-			AttackProperty.OffCenterDistance -= Amount;
-			break;
-		case EAttackModifier::Cluster_Size:
-			AttackProperty.ClusterSize -= Amount;
-			break;
-		case EAttackModifier::Number_Of_Projectiles:
-			AttackProperty.NumberOfProjectiles -= Amount;
-			break;
-		case EAttackModifier::Piercing:
-			AttackProperty.bPiercing = false;
-			break;
-		case EAttackModifier::Damage_Area:
-			AttackProperty.DamageArea -= Amount;
-			break;
-		case EAttackModifier::None:
-			break;
-		default: ;
-		}
-	}
-	
-}
 void UAttackComponent::ReinitializeAttackProperty()
 {
+	//Modified Attack Property
+	UE_LOG(LogTemp, Warning, TEXT("Modified Attack Property Damage %f Piercing %d Damage Area %f Movement Speed %f Off Center Distance %f Cluster Size %d"),
+		AttackProperty.Damage, AttackProperty.bPiercing, AttackProperty.DamageArea, AttackProperty.MovementSpeed, AttackProperty.OffCenterDistance, AttackProperty.ClusterSize);
 	AttackCluster->UpdateCluster(AttackProperty.MovementSpeed,
 		AttackProperty.OffCenterDistance,
 		AttackProperty.ClusterSize);

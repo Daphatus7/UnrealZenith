@@ -60,7 +60,7 @@ void ASpinningGroup::UpdateMotion(float DeltaTime)
 		Attack->SetActorLocation(InterpolatedLocation, false, nullptr, ETeleportType::None);
 
 		// Calculate and set the attack's rotation to face the movement direction
-		FVector Direction = (InterpolatedLocation - CurrentAttackLocation).GetSafeNormal();
+		FVector Direction = (CurrentAttackLocation - CurrentLocation).GetSafeNormal();
 		FRotator FaceDirection = Direction.Rotation();
 		Attack->SetActorRotation(FaceDirection);
 		//relative rotation

@@ -8,6 +8,7 @@
 #include "GameModeUIHandle/PlayerUIHandle.h"
 #include "GameModeUIHandle/ResourcesHandle.h"
 #include "Zenith/Attack/AttackComposite/AttackModifier.h"
+#include "Zenith/Interactable/PlantEffect.h"
 #include "Zenith/Inventory/Resource.h"
 #include "Zenith/ZenithPawn/Enemy/MonsterAttribute.h"
 #include "ZenithGameMode.generated.h"
@@ -90,9 +91,20 @@ public:
 	/**
 	 * This function manages the Monster Spawning
 	 */
+	UFUNCTION(BlueprintCallable, Category = "Game Management")
 	void SpawnMonsters();
-	FMonsterAttribute * GetMonsterToSpawn() const;
+
+	/**
+	 * Get Random Spawn Location
+	 * @return 
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Game Management")
+	bool GetRandomSpawnLocation(FVector & SpawnLocation) const;
+	
+	UFUNCTION(BlueprintCallable, Category = "Game Management")
+	FMonsterAttribute GetMonsterToSpawn() const;
 #pragma endregion
+	
 #pragma region Game Management
 	// add spawn volume
 	void AddSpawnVolume(class ASpawnVolume * SpawnVolume);
@@ -208,6 +220,13 @@ protected:
 	//Add Monster Drops to Player
 	void AddMonsterDrops(E_ResourceType Type, int32 Amount);
 #pragma endregion
+	/*----------------------------------Plant Triggered Events--------------------------------*/
+
+	UFUNCTION(BlueprintCallable, Category = "Plant")
+	virtual void HarvestPlant(FPlantEffect PlantEffect);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "Plant")
+	void OnPlantHarvested(FPlantEffect PlantEffect);
 };
 
 

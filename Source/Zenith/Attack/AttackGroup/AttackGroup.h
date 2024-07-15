@@ -60,7 +60,7 @@ public:
 	//-----------------------------------Cluster Getters ---------------------------------------------
 	int32 GetRemainingClusterSize() const
 	{
-		return ClusterSize - Attacks.Num();
+		return ClusterSize - Attacks.Num() > 0 ? ClusterSize - Attacks.Num() : 0;
 	}
 	
 	int32 GetInactiveClusterSize() const
@@ -101,6 +101,7 @@ public:
 		}
 	}
 	// //Activate
+	
 	// virtual void Activate();
 	// //Deactivate
 	// virtual void Deactivate();

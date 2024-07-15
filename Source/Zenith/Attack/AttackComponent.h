@@ -29,7 +29,7 @@ class ZENITH_API UAttackComponent : public UActorComponent, public IAttackHandle
 
 	/*---------------------------------Attack Modification--------------------------------------*/
 	//Attack Modifiers
-	TArray<FAttackModifier*> AttackModifiers;
+	TArray<FAttackModifier *> AttackModifiers;
 	
 	
 	//determine numerical value
@@ -80,8 +80,6 @@ public:
 	virtual void RemoveAttackModifier(FAttackModifier * Modifier);
 
 	virtual void ApplyModifer();
-	virtual void RemoveModifier(FAttackModifier * ModifierToAdd);
-	virtual void RemoveModifierEffect(FAttackModifier * ModifierToRemove);
 	virtual void ReinitializeAttackProperty();
 };
 

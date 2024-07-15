@@ -30,6 +30,6 @@ public:
 	virtual void InitializeAttack(AActor* Attack) override
 	{
 		Attack->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
-		Attack->SetActorRelativeLocation(FVector(OffCenterDistance, 0.f, 0.f));
+		Attack->SetActorLocation(GetActorLocation());
 	}
 };

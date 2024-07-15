@@ -19,6 +19,7 @@ AZenithGameMode::AZenithGameMode()
 void AZenithGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	LoadExperienceTable();
 }
 
@@ -36,7 +37,6 @@ void AZenithGameMode::OnMorningEvent_Implementation()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Morning Event"));
 	}
-	SpawnMonsters();
 }
 
 void AZenithGameMode::OnNoonEvent_Implementation()
@@ -81,11 +81,6 @@ void AZenithGameMode::LoadExperienceTable()
 		{
 			ExperienceTable.Add(PLevel->Experience);
 		}
-		//printout for debugging
-		for(int32 i = 0; i < ExperienceTable.Num(); i++)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Experience Table: %d"), ExperienceTable[i]);
-		}
 	}
 	else
 	{
@@ -98,7 +93,7 @@ void AZenithGameMode::SpawnMonsters()
 {
 	//Number of Monsters to Spawn
 	int32 NumberOfMonsters = 5;
-	FMonsterAttribute * MonsterToSpawn = GetMonsterToSpawn();
+	FMonsterAttribute MonsterToSpawn = GetMonsterToSpawn();
 	//Types of Monsters to Spawn
 	for(int i = 0; i < NumberOfMonsters; i++)
 	{
@@ -110,29 +105,52 @@ void AZenithGameMode::SpawnMonsters()
 			//Spawn Monster
 			FActorSpawnParameters SpawnParams;
 			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-			AEnemy * Monster = GetWorld()->SpawnActor<AEnemy>(MonsterToSpawn->BlueprintClass,
+			AEnemy * Monster = GetWorld()->SpawnActor<AEnemy>(MonsterToSpawn.BlueprintClass,
 				SpawnVolume->GetActorLocation(), FRotator::ZeroRotator, SpawnParams);
-			Monster->InitializeEnemy(*MonsterToSpawn);
+			Monster->InitializeEnemy(MonsterToSpawn);
 		}
-
 	}
 }
 
-FMonsterAttribute * AZenithGameMode::GetMonsterToSpawn() const
+bool AZenithGameMode::GetRandomSpawnLocation(FVector& SpawnLocation) const
 {
+	const int32 RandomIndex = FMath::RandRange(0, SpawnVolumes.Num() - 1);
+	if(const ASpawnVolume* SpawnVolume = SpawnVolumes[RandomIndex])
+	{
+		SpawnLocation = SpawnVolume->GetActorLocation();
+		return true;
+	}
+	return false;
+}
+
+FMonsterAttribute AZenithGameMode::GetMonsterToSpawn() const
+{
+	// Check if the MonsterTable is valid
 	if (!MonsterTable)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MonsterTable is not initialized."));
-		return nullptr;
+		return FMonsterAttribute(); 
 	}
-	FMonsterAttribute* MonsterData = MonsterTable->FindRow<FMonsterAttribute>( FName(TEXT("Piggy")), "");
+
+	TArray<FName> RowNames = MonsterTable->GetRowNames();
+
+	if (RowNames.Num() == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("MonsterTable is empty."));
+		return FMonsterAttribute(); 
+	}
+
+	FMonsterAttribute* MonsterData = MonsterTable->FindRow<FMonsterAttribute>(RowNames[0], "");
 	if (!MonsterData)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Fail to find MonsterData."));
-		return nullptr;
+		UE_LOG(LogTemp, Warning, TEXT("Failed to find MonsterData."));
+		return FMonsterAttribute();
 	}
-	return MonsterData;
+	
+	// Return the found MonsterData by value (ensure MonsterData is not nullptr before dereferencing)
+	return *MonsterData;
 }
+
 
 
 void AZenithGameMode::AddSpawnVolume(ASpawnVolume* SpawnVolume)
@@ -228,7 +246,8 @@ void AZenithGameMode::AddBuffToPlayer(FAttackModifier Buff)
 {
 	if(AZenithCharacter * PlayerCharacter = Cast<AZenithCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn()))
 	{
-		PlayerCharacter->AddAttackModifier(&Buff);
+		FAttackModifier * Copy = new FAttackModifier(Buff);
+		PlayerCharacter->AddAttackModifier(Copy);
 	}
 }
 
@@ -280,6 +299,7 @@ void AZenithGameMode::HandleUpdateExperience(const float Percentage, const int32
 
 void AZenithGameMode::OnLevelUp() const
 {
+	
 }
 
 void AZenithGameMode::UpdateHealth()
@@ -375,6 +395,12 @@ void AZenithGameMode::AddMonsterDrops(const E_ResourceType Type, const int32 Amo
 {
 	AddResource_Implementation(Type, Amount);
 }
+
+void AZenithGameMode::HarvestPlant(FPlantEffect PlantEffect)
+{
+	OnPlantHarvested(PlantEffect);
+}
+
 
 void AZenithGameMode::OnUpdateUIHealth_Implementation()
 {

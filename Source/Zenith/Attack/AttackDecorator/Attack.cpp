@@ -2,10 +2,8 @@
 
 
 #include "Attack.h"
-#include "Engine/DamageEvents.h"
-#include "Kismet/GameplayStatics.h"
-#include "Particles/ParticleSystemComponent.h"
-#include "Zenith/Library/ZenithFunctionLibrary.h"
+#include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Zenith/ZenithPawn/Enemy/Enemy.h"
 
 #include "Zenith/ZenithPawn/Pawn/ZenithPawn.h"
@@ -18,27 +16,28 @@ AAttack::AAttack()
 	SetRootComponent(SceneComponent);
 
 	// Initialize Mesh component and set collision and mesh properties
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	Mesh->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
-	Mesh->SetStaticMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("/Engine/BasicShapes/Sphere.Sphere")).Object);
-	Mesh->SetupAttachment(RootComponent); // Attach Mesh to SceneComponent
+	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	CollisionMesh->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
+	//hide
+	CollisionMesh->SetStaticMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("/Engine/BasicShapes/Sphere.Sphere")).Object);
+	CollisionMesh->SetupAttachment(RootComponent); // Attach Mesh to SceneComponent
 }
 
 void AAttack::InitializeProperty(const float InitDamage, const bool bPierce, const float InitDamageArea,
-                                     UParticleSystem* NewFX)
+                                     TSoftObjectPtr<UNiagaraSystem> NewFX)
 {
 	Damage = InitDamage;
 	bPiercing = bPierce;
 	DamageArea = InitDamageArea;
 
-	Mesh->SetRelativeScale3D(FVector(InitDamageArea));
-	Mesh->SetVisibility(true);
-	FX = NewFX;
+	CollisionMesh->SetRelativeScale3D(FVector(InitDamageArea));
+	CollisionMesh->SetVisibility(false);
+	FX = nullptr;
 	//Attach FX to Mesh
-	if(FX)
+	if (NewFX)
 	{
-		const auto r = UGameplayStatics::SpawnEmitterAttached(FX, Mesh);
-		r->SetRelativeScale3D(FVector(InitDamageArea * 0.3));
+		// FX = UNiagaraFunctionLibrary::SpawnSystemAttached(NewFX.Get(), CollisionMesh, FName("None"), FVector(0.f),
+		// 	FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
 	}
 }
 
@@ -47,6 +46,7 @@ void AAttack::UpdateAttack(const float InitDamage, const bool bPierce, const flo
 	Damage = InitDamage;
 	bPiercing = bPierce;
 	DamageArea = InitDamageArea;
+	CollisionMesh->SetRelativeScale3D(FVector(InitDamageArea));
 }
 
 void AAttack::DebugAttackMessage() const
@@ -81,6 +81,7 @@ void AAttack::NotifyActorBeginOverlap(AActor* OtherActor)
 		AEnemy* ZenithPawn = Cast<AEnemy>(OtherActor);
 		if (ZenithPawn == nullptr) return;
 		ApplyDamage(ZenithPawn, Damage);
+		OnHitEffect();
 
 		if(bPiercing) return;
 		//If not piercing, destroy the attack
@@ -126,3 +127,6 @@ void AAttack::Deactivate()
 
 }
 
+void AAttack::OnHitEffect_Implementation()
+{
+}

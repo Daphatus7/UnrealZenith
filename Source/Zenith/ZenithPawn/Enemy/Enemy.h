@@ -14,10 +14,11 @@ class ZENITH_API AEnemy : public AZenithPawn
 	GENERATED_BODY()
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;\
+	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Damage, meta = (AllowPrivateAccess = "true"))
 	FName MonsterName = "No Name";
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Damage, meta = (AllowPrivateAccess = "true"))
 	float Damage = 1.0f;
 		
@@ -35,24 +36,22 @@ protected:
 public:
 	// Sets default values for this character's properties
 	AEnemy();
-
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	//notification on begin overlap
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
-
 	virtual void OnTakingDamage(const float DamageAmount, AActor* DamageCauser) override;
 
 	//Apply Damage
+	UFUNCTION(BlueprintCallable, Category = "Damage")
 	virtual void ApplyDamage(AZenithPawn* Target, float DamageAmount);
 	virtual void Notify() override;
 	virtual void OnDeath_Implementation() override;
+	
 	//die
-
 	virtual void InitializeEnemy(const FMonsterAttribute MonsterAttribute)
 	{
 		MonsterName = MonsterAttribute.Name;
@@ -62,5 +61,6 @@ public:
 		Experience = MonsterAttribute.Experience;
 		//movement speed
 		GetCharacterMovement()->MaxWalkSpeed = MonsterAttribute.MovementSpeed;
+		UE_LOG(LogTemp, Warning, TEXT("Monster movement speed: %f"), MonsterAttribute.MovementSpeed);
 	}
 };

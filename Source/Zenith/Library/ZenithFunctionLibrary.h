@@ -55,4 +55,6 @@ public:
 
 		return EnumPtr->GetNameStringByValue((int64)EnumValue);
 	}
+
+
 };

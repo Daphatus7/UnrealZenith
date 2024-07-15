@@ -40,18 +40,6 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AEnemy::NotifyActorBeginOverlap(AActor* OtherActor)
-{
-	//if the target has the tag to be damage-> apply damage
-	if(OtherActor->Tags.Contains("ZenithPlayer"))
-	{
-		AZenithPawn* ZenithPawn = Cast<AZenithPawn>(OtherActor);
-		if (ZenithPawn == nullptr) return;
-		
-		ApplyDamage(ZenithPawn, Damage);
-	}
-}
-
 void AEnemy::OnTakingDamage(const float DamageAmount, AActor* DamageCauser)
 {
 	OnTakeDamageEffect(DamageAmount);

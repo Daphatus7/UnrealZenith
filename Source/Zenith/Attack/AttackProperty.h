@@ -25,7 +25,7 @@ struct ZENITH_API FAttackProperty : public FTableRowBase
 	TSubclassOf<AAttackGroup> ClusterToSpawn = nullptr;
 	//FX
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
-	UParticleSystem *FX = nullptr;
+	TSoftObjectPtr<UNiagaraSystem> FX = nullptr;
 	
 	//float value of damage
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attack")
