@@ -24,7 +24,7 @@ bool UAttackComponent::Attack(const FVector& Direction)
 {
 	if(!AttackCluster) return false;
 	//Create Cluster to store attacks
-	//Get Cluster Remainings
+	//Get Cluster Remaining Attacks
 	const int32 RemainingAttacks = AttackCluster->GetRemainingClusterSize();
 	const int32 InactiveAttacks = AttackCluster->GetInactiveClusterSize();
 	
@@ -220,4 +220,40 @@ void UAttackComponent::ReinitializeAttackProperty()
 	AttackCluster->ReinitializeAttack(AttackProperty.Damage,
 		AttackProperty.bPiercing,
 		AttackProperty.DamageArea);
+}
+
+void UAttackComponent::UpdateMagicPowerVisual(float MagicPowerPoint)
+{
+	for(AAttack* Attack: AttackCluster->GetAttacks())
+	{
+		Attack->OnUpdateMagicPowerVisual(MagicPowerPoint);
+	}
+}
+
+void UAttackComponent::UpdateSpeedPowerVisual(float SpeedPowerPoint)
+{
+	for(AAttack* Attack: AttackCluster->GetAttacks())
+	{
+		Attack->OnUpdateSpeedPowerVisual(SpeedPowerPoint);
+	}
+}
+
+void UAttackComponent::UpdateManaPowerVisual(float ManaPowerPoint)
+{
+	
+}
+
+void UAttackComponent::UpdateMagicPowerNumeric(float MagicPowerPoint)
+{
+	ReinitializeAttackProperty();
+}
+
+void UAttackComponent::UpdateSpeedPowerNumeric(float SpeedPowerPoint)
+{
+	ReinitializeAttackProperty();
+}
+
+void UAttackComponent::UpdateManaPowerNumeric(float ManaPowerPoint)
+{
+	ReinitializeAttackProperty();
 }

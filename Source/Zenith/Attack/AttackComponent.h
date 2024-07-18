@@ -31,6 +31,7 @@ class ZENITH_API UAttackComponent : public UActorComponent, public IAttackHandle
 	//Attack Modifiers
 	TArray<FAttackModifier *> AttackModifiers;
 	
+	
 	//determine numerical value
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	float Damage = 1.0f;
@@ -80,6 +81,18 @@ public:
 
 	virtual void ApplyModifer();
 	virtual void ReinitializeAttackProperty();
+
+	/*------------------------------------Plant Enhancement Property--------------------------------------*/
+public:
+	//Update Visual Factor
+	void UpdateMagicPowerVisual(float MagicPowerPoint);
+	void UpdateSpeedPowerVisual(float SpeedPowerPoint);
+	void UpdateManaPowerVisual(float ManaPowerPoint);
+	
+	//Update Numeric Factor (such as Damage and Speed)
+	void UpdateMagicPowerNumeric(float MagicPowerPoint);
+	void UpdateSpeedPowerNumeric(float SpeedPowerPoint);
+	void UpdateManaPowerNumeric(float ManaPowerPoint);
 };
 
 

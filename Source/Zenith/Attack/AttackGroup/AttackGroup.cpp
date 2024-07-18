@@ -65,28 +65,3 @@ void AAttackGroup::DebugClusterMessage()
 		Attack->DebugAttackMessage();
 	}
 }
-
-
-// void AAttackGroup::Activate()
-// {
-// 	// Hides visible components
-// 	SetActorHiddenInGame(false);
-//
-// 	// Disables collision components
-// 	SetActorEnableCollision(true);
-//
-// 	// Stops the Actor from ticking
-// 	SetActorTickEnabled(true);
-// }
-//
-// void AAttackGroup::Deactivate()
-// {
-// 	// Hides visible components
-// 	SetActorHiddenInGame(true);
-//
-// 	// Disables collision components
-// 	SetActorEnableCollision(false);
-//
-// 	// Stops the Actor from ticking
-// 	SetActorTickEnabled(false);
-// }

@@ -84,4 +84,9 @@ public:
 	virtual void InitializeProperty(const float InitDamage, const bool bPierce, const float InitDamageArea, TSoftObjectPtr<UNiagaraSystem> NewFX);
 	virtual void UpdateAttack(const float InitDamage, const bool bPierce, const float InitDamageArea);
 	void DebugAttackMessage() const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attack Visual")
+	void OnUpdateMagicPowerVisual(float Amount);
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attack Visual")
+	void OnUpdateSpeedPowerVisual(float Amount);
 };

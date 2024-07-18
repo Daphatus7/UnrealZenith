@@ -6,6 +6,7 @@
 #include "DataTables/PlayerLevel.h"
 #include "GameFramework/GameStateBase.h"
 #include "GameInstanceHandle/GameInstanceHandle.h"
+#include "Zenith/Interactable/PlantPower.h"
 #include "Zenith/SpawnVolume/SpawnVolume.h"
 #include "Zenith/ZenithPawn/Character/ZenithCharacter.h"
 #include "Zenith/ZenithPawn/Enemy/Enemy.h"
@@ -19,8 +20,8 @@ AZenithGameMode::AZenithGameMode()
 void AZenithGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	
 	LoadExperienceTable();
+	LoadPlantPowerTable();
 }
 
 void AZenithGameMode::OnDawnEvent_Implementation()
@@ -167,7 +168,7 @@ void AZenithGameMode::StartGame() const
 	GetWorld()->GetGameState()->SetActorTickEnabled(true);
 }
 
-void AZenithGameMode::LoadPlayerSkill(int32 Selected) const
+void AZenithGameMode::LoadPlayerSkill(int32 Selected)
 {
 	//cast to character
 	if(AZenithCharacter * PlayerCharacter = Cast<AZenithCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn()))
@@ -176,7 +177,7 @@ void AZenithGameMode::LoadPlayerSkill(int32 Selected) const
 		{
 			if(const auto Data = AttackPropertyTable->FindRow<FAttackProperty>("DefaultAttack", ""))
 			{
-				PlayerCharacter->LoadSkill(Data);
+				PlayerAttackComponent = PlayerCharacter->LoadSkill(Data);
 			}
 		}
 		//load skill
@@ -385,6 +386,7 @@ void AZenithGameMode::AddExperience(const int32 Amount)
 		PlayerExperience = 0;
 		CurrLeveCap = ExperienceTable[PlayerLevel];
 		OnLevelUp();
+		
 	}
 	if(CurrLeveCap != 0)
 		UpdatePlayerExperience();
@@ -398,12 +400,55 @@ void AZenithGameMode::AddMonsterDrops(const E_ResourceType Type, const int32 Amo
 void AZenithGameMode::HarvestPlant(FPlantEffect PlantEffect)
 {
 	OnPlantHarvested(PlantEffect);
-	switch (PlantEffect.PlantType)
+	if(Player == nullptr)
 	{
-	case FPlantEffect::
+		Player = Cast<AZenithCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	}
+	if(Player)
+	{
+		switch (PlantEffect.PlantType)
+		{
+			case EPlantType::MagicPower:
+				Player->AddMagicPowerPoint(GetPlantPower(PlantEffect));
+				break;
+			case EPlantType::SpeedPower:
+				Player->AddSpeedPowerPoint(GetPlantPower(PlantEffect));
+				break;
+			case EPlantType::PhysiquePower:
+				Player->AddPhysiquePowerPoint(GetPlantPower(PlantEffect));
+				break;
+			case EPlantType::ManaPower:
+				Player->AddManaPowerPoint(GetPlantPower(PlantEffect));
+				break;
+			case EPlantType::MysteriousPower:
+				break;
+		}
+	}
+	
 }
 
+float AZenithGameMode::GetPlantPower(FPlantEffect PlantEffect) const
+{
+	//The data should be store in a table, so it can be modified easily.
+	return PlantEffect.Amount;
+}
+
+void AZenithGameMode::LoadPlantPowerTable()
+{
+	if(PlantPowerTable)
+	{
+		TArray<FPlantPower*> LocalLevels;
+		PlantPowerTable->GetAllRows<FPlantPower>("", LocalLevels);
+		for(const FPlantPower* PLevel : LocalLevels)
+		{
+			PlantPowerTableData.Add(PLevel->Amount);
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PlantPowerTable is not initialized."));
+	}
+}
 
 void AZenithGameMode::OnUpdateUIHealth_Implementation()
 {

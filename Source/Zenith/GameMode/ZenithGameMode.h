@@ -21,6 +21,10 @@ class ZENITH_API AZenithGameMode : public AGameModeBase, public IPlayerUIHandle,
 {
 	GENERATED_BODY()
 
+	//Player Reference
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player", meta = (AllowPrivateAccess = "true"))
+	class AZenithCharacter * Player;
+	
 	//Player Experience
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAccess = "true"))
 	int32 PlayerExperience = 0;
@@ -28,11 +32,18 @@ class ZENITH_API AZenithGameMode : public AGameModeBase, public IPlayerUIHandle,
 	//Player Level
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAccess = "true"))
 	int32 PlayerLevel = 1;
+
+	//Player Attack Component
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAccess = "true"))
+	class UAttackComponent * PlayerAttackComponent;
 	
 	//Experience Table
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAccess = "true"))
 	TArray<int32> ExperienceTable;
-	
+
+	//Plant Power Table
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Plant", meta = (AllowPrivateAccess = "true"))
+	TArray<float> PlantPowerTableData;
 protected:
 	//Spawn Volumes
 	UPROPERTY(BlueprintReadOnly, Category = "Spawn")
@@ -62,6 +73,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="My Category")
 	const UDataTable* AttackModifierTable;
 
+	//Attack Modifier table
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="My Category")
+	const UDataTable* PlantPowerTable;
 private:
 	//Load Experience table
 	void LoadExperienceTable();
@@ -115,7 +129,7 @@ public:
 private:
 	//Player Controlled to start the game
 	void StartGame() const;
-	void LoadPlayerSkill(int32 SelectedCharacter) const;
+	void LoadPlayerSkill(int32 SelectedCharacter);
 
 #pragma endregion
 	//--------------------------------Player Resource & EXP Management--------------------------------
@@ -139,7 +153,6 @@ public:
 	//Handle Update Resource
 	void SaveResources() const;
 	void HandleUpdateResource(const E_ResourceType ResourceType, const int32 Amount) const;
-	
 #pragma endregion
 #pragma region Experience Change Event
 private:
@@ -221,12 +234,32 @@ protected:
 	void AddMonsterDrops(E_ResourceType Type, int32 Amount);
 #pragma endregion
 	/*----------------------------------Plant Triggered Events--------------------------------*/
+private:
+	//Player Magic Power
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Plant", meta = (AllowPrivateAccess = "true"))
+	float PlayerMagicPower = 0.0f;
 	
+	//Player Impetus Power
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Plant", meta = (AllowPrivateAccess = "true"))
+	float PlayerImpetusPower = 0.0f;
+	
+	//Player Health Power
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Plant", meta = (AllowPrivateAccess = "true"))
+	float PlayerHealthPower = 0.0f;
+	
+#pragma region Plant Events
+public:
 	UFUNCTION(BlueprintCallable, Category = "Plant")
 	virtual void HarvestPlant(FPlantEffect PlantEffect);
 	
 	UFUNCTION(BlueprintImplementableEvent, Category = "Plant")
 	void OnPlantHarvested(FPlantEffect PlantEffect);
+
+	UFUNCTION(BlueprintCallable, Category = "Plant")
+	float GetPlantPower(FPlantEffect PlantEffect) const;
+
+	void LoadPlantPowerTable();
+#pragma endregion
 };
 
 

@@ -80,44 +80,37 @@ public:
 	virtual void OnTakeDamageEffect(float DamageAmount) override;
 
 	//Load Skill
-	virtual void LoadSkill(FAttackProperty * AttackProperty);
+	virtual UAttackComponent * LoadSkill(FAttackProperty * AttackProperty);
 
 	/*-----------------Taking Damage-----------------*/
 	//On taking damage
 	virtual void OnTakingDamage(const float DamageAmount, AActor* DamageCauser) override;
 	virtual void Notify() override;
 
-	//Pure
+	/*----------------------------------Attributes----------------------------------*/
+#pragma region Attributes
+public:
 	UFUNCTION(BlueprintPure, Category = "Attribute")
 	float GetHealth() const { return PlayerAttribute.Health; }
 	UFUNCTION(BlueprintPure, Category = "Attribute")
 	float GetHealthMax() const { return PlayerAttribute.HealthMax; }
 
-
-private:
-	/*-----------------Character Attributes-----------------*/
-	//player Magic Power Stats
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack", meta = (AllowPrivateAccess = "true"))
-	float MagicPowerPoint = 0;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack", meta = (AllowPrivateAccess = "true"))
-	float ManaPowerPoints = 0;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack", meta = (AllowPrivateAccess = "true"))
-	float SpeedPowerPoints = 0;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack", meta = (AllowPrivateAccess = "true"))
-	float PhysiquePowerPoints = 0;
-
-public:
-	UFUNCTION(BlueprintCallable, Category = "Attribute")
+	/*----------------------------------Plant magic---------------------------------*/
+	UFUNCTION(BlueprintCallable, Category = "Plant")
 	void AddMagicPowerPoint(float Amount);
-	UFUNCTION(BlueprintCallable, Category = "Attribute")
-	void AddManaPowerPoints(float Amount);
-	UFUNCTION(BlueprintCallable, Category = "Attribute")
-	void AddSpeedPowerPoints(float Amount);
-	UFUNCTION(BlueprintCallable, Category = "Attribute")
-	void AddPhysiquePowerPoints(float Amount);
+	UFUNCTION(BlueprintCallable, Category = "Plant")
+	void AddSpeedPowerPoint(float Amount);
+	UFUNCTION(BlueprintCallable, Category = "Plant")
+	void AddPhysiquePowerPoint(float Amount);
+	UFUNCTION(BlueprintCallable, Category = "Plant")
+	void AddManaPowerPoint(float Amount);
+
+	void OnAddMagicPowerPoint();
+	void OnAddSpeedPowerPoint();
+	void OnAddPhysiquePowerPoint();
+	void OnAddManaPowerPoint();
+#pragma endregion
 	
 };
+
 

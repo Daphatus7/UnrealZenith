@@ -9,7 +9,7 @@ struct ZENITH_API FPlantEffect : public FTableRowBase
 {
 	GENERATED_BODY()
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Plant")
-	EPlantType PlantType = EPlantType::Health;
+	EPlantType PlantType = EPlantType::ManaPower;
 
 	//Level
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Plant")

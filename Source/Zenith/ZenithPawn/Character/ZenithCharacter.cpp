@@ -84,7 +84,7 @@ bool AZenithCharacter::Attack(FVector CursorLocation)
 	FVector Direction = CursorLocation - GetActorLocation();
 	if(AttackComponent)
 	{
-		//printout attackcomponent
+		//printout Attack Component
 		return AttackComponent->Attack(Direction);
 	}
 	return false;
@@ -114,12 +114,15 @@ void AZenithCharacter::OnTakeDamageEffect(float DamageAmount)
 	PlayerUIHandle->UpdateHealth();
 }
 
-void AZenithCharacter::LoadSkill(FAttackProperty* AttackProperty)
+UAttackComponent * AZenithCharacter::LoadSkill(FAttackProperty* AttackProperty)
 {
-	if (AttackProperty)
+	if (AttackProperty && AttackComponent)
 	{
 		AttackComponent->AssignAttackType(*AttackProperty);
+		return AttackComponent;
 	}
+	UE_LOG(LogTemplateCharacter, Error, TEXT("Attack Property or AttackComponent is null"));
+	return nullptr;
 }
 
 
@@ -145,19 +148,61 @@ void AZenithCharacter::Notify()
 
 void AZenithCharacter::AddMagicPowerPoint(float Amount)
 {
-	
+	PlayerAttribute.MagicPowerPoint += Amount;
+	OnAddMagicPowerPoint();
 }
 
-void AZenithCharacter::AddManaPowerPoints(float Amount)
+void AZenithCharacter::AddSpeedPowerPoint(float Amount)
 {
-	
-}
-void AZenithCharacter::AddSpeedPowerPoints(float Amount)
-{
-	
-}
-void AZenithCharacter::AddPhysiquePowerPoints(float Amount)
-{
-	
+	PlayerAttribute.SpeedPowerPoint += Amount;
+	OnAddSpeedPowerPoint();
 }
 
+void AZenithCharacter::AddPhysiquePowerPoint(float Amount)
+{
+	PlayerAttribute.PhysiquePowerPoint += Amount;
+	PlayerAttribute.Health += Amount;
+	PlayerAttribute.HealthMax += Amount;
+	if(PlayerUIHandle)
+		PlayerUIHandle->UpdateHealth();
+	OnAddPhysiquePowerPoint();
+}
+
+void AZenithCharacter::AddManaPowerPoint(float Amount)
+{
+	PlayerAttribute.MagicPowerPoint += Amount;
+	OnAddManaPowerPoint();
+}
+
+void AZenithCharacter::OnAddMagicPowerPoint()
+{
+	//Message Attack Component and make relevant modification of visual representation
+	if(AttackComponent)
+	{
+		AttackComponent->UpdateMagicPowerVisual(PlayerAttribute.MagicPowerPoint);
+		AttackComponent->UpdateMagicPowerNumeric(PlayerAttribute.MagicPowerPoint);
+	}
+}
+
+void AZenithCharacter::OnAddSpeedPowerPoint()
+{
+	if(AttackComponent)
+	{
+		AttackComponent->UpdateSpeedPowerVisual(PlayerAttribute.SpeedPowerPoint);
+		AttackComponent->UpdateSpeedPowerNumeric(PlayerAttribute.SpeedPowerPoint);
+	}
+}
+
+void AZenithCharacter::OnAddPhysiquePowerPoint()
+{
+	//not implemented
+}
+
+void AZenithCharacter::OnAddManaPowerPoint()
+{
+	if(AttackComponent)
+	{
+		AttackComponent->UpdateManaPowerVisual(PlayerAttribute.SpeedPowerPoint);
+		AttackComponent->UpdateManaPowerNumeric(PlayerAttribute.SpeedPowerPoint);
+	}
+}

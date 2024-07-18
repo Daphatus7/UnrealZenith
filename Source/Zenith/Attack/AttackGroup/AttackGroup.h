@@ -44,7 +44,10 @@ protected:
 
 public:
 	AAttackGroup();
-
+	TArray<AAttack*> GetAttacks() const
+	{
+		return Attacks;
+	}
 	//begin play
 	virtual void BeginPlay() override;
 	
