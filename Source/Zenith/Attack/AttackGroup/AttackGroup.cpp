@@ -24,6 +24,7 @@ AAttackGroup::AAttackGroup()
 	Mesh->SetCollisionProfileName(TEXT("NoCollision"));
 	Mesh->SetStaticMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("/Engine/BasicShapes/Cube.Cube")).Object);
 	Mesh->SetupAttachment(RootComponent); // Attach Mesh to SceneComponent
+	Mesh->SetVisibility(false);
 }
 
 void AAttackGroup::BeginPlay()

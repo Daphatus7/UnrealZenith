@@ -37,7 +37,7 @@ private:
 	GENERATED_BODY()
 
 	//Attack component
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack", meta = (AllowPrivateAccess = "true"))
 	UAttackComponent * AttackComponent;
 	
 	/*-----------------Character Attributes-----------------*/

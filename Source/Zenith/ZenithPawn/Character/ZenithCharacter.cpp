@@ -57,11 +57,11 @@ void AZenithCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-	AttackComponent = NewObject<UAttackComponent>(this);
-	if (AttackComponent)
-	{
-		AttackComponent->RegisterComponent();
-	}
+	// AttackComponent = NewObject<UAttackComponent>(this);
+	// if (AttackComponent)
+	// {
+	// 	AttackComponent->RegisterComponent();
+	// }
 	if(GetWorld())
 	{
 		if (IPlayerUIHandle* Interface = Cast<IPlayerUIHandle>(GetWorld()->GetAuthGameMode()))

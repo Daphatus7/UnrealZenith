@@ -11,7 +11,7 @@
 #include "AttackComponent.generated.h"
 
 
-UCLASS()
+UCLASS(Blueprintable, ClassGroup=(Attack), meta=(BlueprintSpawnableComponent))
 class ZENITH_API UAttackComponent : public UActorComponent, public IAttackHandle
 {
 	GENERATED_BODY()
@@ -24,18 +24,15 @@ class ZENITH_API UAttackComponent : public UActorComponent, public IAttackHandle
 	FAttackProperty AttackPropertyDefault;
 	
 	//Attack Clusters
-	UPROPERTY(EditAnywhere, Category = "Attack")
+	UPROPERTY()
 	AAttackGroup * AttackCluster = nullptr;
 
 	/*---------------------------------Attack Modification--------------------------------------*/
 	//Attack Modifiers
 	TArray<FAttackModifier *> AttackModifiers;
 	
-	
-	//determine numerical value
-	UPROPERTY(EditAnywhere, Category = "Attack")
-	float Damage = 1.0f;
 
+	//Damage
 public:
 	//Constructor
 	UAttackComponent();
@@ -49,7 +46,10 @@ public:
 	//Assign Attack Type
 	void AssignAttackType(FAttackProperty AttackType);
 	/*------------------------------------Attack Base--------------------------------------------*/
-	
+	//Attack Level Table
+protected:
+
+public:
 	/*------------------------------------Cluster Handle-----------------------------------------*/
 	//Cluster
 	virtual void UpdateCluster();

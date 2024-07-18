@@ -224,6 +224,9 @@ void UAttackComponent::ReinitializeAttackProperty()
 
 void UAttackComponent::UpdateMagicPowerVisual(float MagicPowerPoint)
 {
+
+	//first check if it has enough EXP to level up the attack
+	
 	for(AAttack* Attack: AttackCluster->GetAttacks())
 	{
 		Attack->OnUpdateMagicPowerVisual(MagicPowerPoint);
