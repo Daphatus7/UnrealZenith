@@ -385,7 +385,6 @@ void AZenithGameMode::AddExperience(const int32 Amount)
 		PlayerExperience = 0;
 		CurrLeveCap = ExperienceTable[PlayerLevel];
 		OnLevelUp();
-		
 	}
 	if(CurrLeveCap != 0)
 		UpdatePlayerExperience();
@@ -399,6 +398,10 @@ void AZenithGameMode::AddMonsterDrops(const E_ResourceType Type, const int32 Amo
 void AZenithGameMode::HarvestPlant(FPlantEffect PlantEffect)
 {
 	OnPlantHarvested(PlantEffect);
+	switch (PlantEffect.PlantType)
+	{
+	case FPlantEffect::
+	}
 }
 
 

@@ -92,5 +92,32 @@ public:
 	float GetHealth() const { return PlayerAttribute.Health; }
 	UFUNCTION(BlueprintPure, Category = "Attribute")
 	float GetHealthMax() const { return PlayerAttribute.HealthMax; }
+
+
+private:
+	/*-----------------Character Attributes-----------------*/
+	//player Magic Power Stats
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack", meta = (AllowPrivateAccess = "true"))
+	float MagicPowerPoint = 0;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack", meta = (AllowPrivateAccess = "true"))
+	float ManaPowerPoints = 0;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack", meta = (AllowPrivateAccess = "true"))
+	float SpeedPowerPoints = 0;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack", meta = (AllowPrivateAccess = "true"))
+	float PhysiquePowerPoints = 0;
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "Attribute")
+	void AddMagicPowerPoint(float Amount);
+	UFUNCTION(BlueprintCallable, Category = "Attribute")
+	void AddManaPowerPoints(float Amount);
+	UFUNCTION(BlueprintCallable, Category = "Attribute")
+	void AddSpeedPowerPoints(float Amount);
+	UFUNCTION(BlueprintCallable, Category = "Attribute")
+	void AddPhysiquePowerPoints(float Amount);
+	
 };
 

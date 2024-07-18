@@ -221,7 +221,7 @@ protected:
 	void AddMonsterDrops(E_ResourceType Type, int32 Amount);
 #pragma endregion
 	/*----------------------------------Plant Triggered Events--------------------------------*/
-
+	
 	UFUNCTION(BlueprintCallable, Category = "Plant")
 	virtual void HarvestPlant(FPlantEffect PlantEffect);
 	

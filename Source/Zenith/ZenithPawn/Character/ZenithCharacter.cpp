@@ -142,3 +142,22 @@ void AZenithCharacter::Notify()
 			Listener->NotifyListener(&PlayerAttribute.Health);
 	}
 }
+
+void AZenithCharacter::AddMagicPowerPoint(float Amount)
+{
+	
+}
+
+void AZenithCharacter::AddManaPowerPoints(float Amount)
+{
+	
+}
+void AZenithCharacter::AddSpeedPowerPoints(float Amount)
+{
+	
+}
+void AZenithCharacter::AddPhysiquePowerPoints(float Amount)
+{
+	
+}
+

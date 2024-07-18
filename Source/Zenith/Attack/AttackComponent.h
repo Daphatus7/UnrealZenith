@@ -31,7 +31,6 @@ class ZENITH_API UAttackComponent : public UActorComponent, public IAttackHandle
 	//Attack Modifiers
 	TArray<FAttackModifier *> AttackModifiers;
 	
-	
 	//determine numerical value
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	float Damage = 1.0f;
