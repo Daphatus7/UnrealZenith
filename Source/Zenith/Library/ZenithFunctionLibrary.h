@@ -56,5 +56,6 @@ public:
 		return EnumPtr->GetNameStringByValue((int64)EnumValue);
 	}
 
-
+	UFUNCTION(BlueprintCallable, Category = "Zenith Function Library", meta = (Keywords = "ZenithFunctionLibrary"))
+	static bool LoadCurveTableData(UCurveTable* CurveTable, FName RowName, TArray<float>& Data, int32 NumberOfPoints);
 };

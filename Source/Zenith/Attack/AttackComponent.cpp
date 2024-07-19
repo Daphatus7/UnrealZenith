@@ -83,7 +83,7 @@ void UAttackComponent::AssignAttackType(FAttackProperty AttackType)
 
 //-------------------------------------Attack Modification--------------------------------------------------//
 
-float UAttackComponent::GetAttackLevelData(int32 Level)
+float UAttackComponent::GetAttackLevelExperience(int32 Level)
 {
 	//data not loaded
 	if (AttackLevelData.Num() == 0)
@@ -103,6 +103,45 @@ float UAttackComponent::GetAttackLevelData(int32 Level)
 	
 	//return max value if the level is out of range
 	return AttackLevelData.Last();
+}
+
+float UAttackComponent::GetAttackSpeedCurveValue(int32 Level)
+{
+	//data not loaded
+	if (AttackSpeedData.Num() == 0)
+	{
+		LoadAttackSpeedTable();
+		if(AttackSpeedData.Num() == 0)
+		{
+			//return maximum float number
+			return TNumericLimits<float>::Max()/2;
+		}
+	}
+	//Data has loaded and valid index
+	if (AttackSpeedData.IsValidIndex(Level - 1))
+	{
+		return AttackSpeedData[Level - 1];
+	}
+	
+	//return max value if the level is out of range
+	return AttackSpeedData.Last();
+}
+
+void UAttackComponent::LoadAttackSpeedTable()
+{
+	if(UZenithFunctionLibrary::LoadCurveTableData(AttackSpeedTable, "Curve", AttackSpeedData, TotalLevels * 10))
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("Attack Speed Data Loaded"));
+		//print out debug log
+		// for(float Value: AttackSpeedData)
+		// {
+		// 	UE_LOG(LogTemp, Warning, TEXT("Attack Speed Data: %f"), Value);
+		// }
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Attack Speed Data Not Loaded"));
+	}
 }
 
 void UAttackComponent::UpdateCluster()
@@ -247,22 +286,28 @@ void UAttackComponent::IncreaseMagicPower(float MagicPowerPoint)
 {
 	//the amount of exp to level up n.% level. percentage of exp
 	//can levelup
-	if(MagicPowerPoint > GetAttackLevelData(AttackLevel))
+	const float CurrentExp = GetAttackLevelExperience(AttackLevel);
+	const float PreviousExp = GetAttackLevelExperience(AttackLevel - 1);
+	if(MagicPowerPoint > CurrentExp)
 	{
 		//Level up
 		AttackLevel++;
 		//Play Level Up Effect
 	}
-
-	
-	float NormalisedAmount = (MagicPowerPoint - GetAttackLevelData(AttackLevel - 1))
-								/ (GetAttackLevelData(AttackLevel) - GetAttackLevelData(AttackLevel - 1));
+	const float NormalisedAmount = (MagicPowerPoint - PreviousExp)
+								/ (CurrentExp - PreviousExp);
 	UpdateMagicPowerVisual(NormalisedAmount);
 }
 
 void UAttackComponent::IncreaseSpeedPower(float SpeedPowerPoint)
 {
 	UpdateSpeedPowerVisual(SpeedPowerPoint);
+	//Update rotation speed of cluster
+	AttackProperty.MovementSpeed = AttackPropertyDefault.MovementSpeed * GetAttackSpeedCurveValue(SpeedPowerPoint);
+	AttackCluster->UpdateCluster(AttackProperty.MovementSpeed, AttackProperty.OffCenterDistance, AttackProperty.ClusterSize);
+	//Debug_Log
+	UE_LOG(LogTemp, Warning, TEXT("Speed Power Point: %f"), SpeedPowerPoint);
+	UE_LOG(LogTemp, Warning, TEXT("Speed Power: %f"), AttackProperty.MovementSpeed);
 }
 
 void UAttackComponent::IncreaseManaPower(float ManaPowerPoint)

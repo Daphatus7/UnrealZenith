@@ -17,6 +17,9 @@ class ZENITH_API UAttackComponent : public UActorComponent, public IAttackHandle
 	GENERATED_BODY()
 
 	/*---------------------------------Attack Base Property-------------------------------------*/
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack", meta = (AllowPrivateAccess = "true"))
+	int TotalLevels = 30;
 	//Attack Property
 	UPROPERTY()
 	FAttackProperty AttackProperty;
@@ -26,7 +29,7 @@ class ZENITH_API UAttackComponent : public UActorComponent, public IAttackHandle
 	//Attack Clusters
 	UPROPERTY()
 	AAttackGroup * AttackCluster = nullptr;
-
+	
 	/*---------------------------------Attack Modification--------------------------------------*/
 	//Attack Modifiers
 	TArray<FAttackModifier *> AttackModifiers;
@@ -44,8 +47,10 @@ public:
 	//Assign Attack Type
 	void AssignAttackType(FAttackProperty AttackType);
 	/*------------------------------------Attack Base--------------------------------------------*/
-	//Attack Level Table
 protected:
+	/*------------------------------------Attack Level Table-----------------------------------------*/
+#pragma region Attack Level Table
+	//Attack Level Table
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
 	UCurveTable * AttackLevelTable;
 
@@ -56,18 +61,26 @@ protected:
 	//Attack Level
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
 	int32 AttackLevel = 1;
-
 	//Get Attack Level Data
 	UFUNCTION(BlueprintCallable, Category = "Attack")
-	float GetAttackLevelData(int32 Level);
-public:
+	float GetAttackLevelExperience(int32 Level);
 	UFUNCTION(BlueprintImplementableEvent, Category = "Attack")
 	void LoadAttackLevelData();
-
+#pragma endregion
+	/*------------------------------------Attack Speed Table-----------------------------------------*/
 	//Attack Speed Table
-protected:
-	
-	
+#pragma region Attack Speed Table
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
+	UCurveTable * AttackSpeedTable;
+
+	//Curve table data
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack")
+	TArray<float> AttackSpeedData; 
+	UFUNCTION(BlueprintCallable, Category = "Attack")
+	float GetAttackSpeedCurveValue(int32 Level);
+	UFUNCTION(BlueprintCallable, Category = "Attack")
+	void LoadAttackSpeedTable();
+#pragma endregion
 public:
 	/*------------------------------------Cluster Handle-----------------------------------------*/
 	//Cluster

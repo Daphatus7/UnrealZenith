@@ -90,3 +90,25 @@ FVector2D UZenithFunctionLibrary::ProjectVectorToXYPlane(const FVector& Vector)
  return FVector2D(Vector.X, Vector.Y);
 }
 
+bool UZenithFunctionLibrary::LoadCurveTableData(UCurveTable* CurveTable, const FName RowName, TArray<float>& Data,
+                                                const int32 NumberOfPoints)
+{
+ //clear old data
+ Data.Empty();
+ //check if the curve table is valid
+ if (CurveTable)
+ {
+  //get the row
+  const FRealCurve* Curve = CurveTable->FindCurve(RowName, TEXT(""));
+  //get number of points from 1 to n
+  for (int32 i = 1; i <= NumberOfPoints; i++)
+  {
+   //get the value at the point
+   float Value = Curve->Eval(i);
+   //add the value to the data array
+   Data.Add(Value);
+  }
+  return true;
+ }
+ return false;
+}
