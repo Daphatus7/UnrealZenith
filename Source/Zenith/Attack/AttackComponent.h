@@ -30,8 +30,6 @@ class ZENITH_API UAttackComponent : public UActorComponent, public IAttackHandle
 	/*---------------------------------Attack Modification--------------------------------------*/
 	//Attack Modifiers
 	TArray<FAttackModifier *> AttackModifiers;
-	
-
 	//Damage
 public:
 	//Constructor
@@ -48,7 +46,28 @@ public:
 	/*------------------------------------Attack Base--------------------------------------------*/
 	//Attack Level Table
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
+	UCurveTable * AttackLevelTable;
 
+	//Curve table data
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack")
+	TArray<float> AttackLevelData;
+	
+	//Attack Level
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
+	int32 AttackLevel = 1;
+
+	//Get Attack Level Data
+	UFUNCTION(BlueprintCallable, Category = "Attack")
+	float GetAttackLevelData(int32 Level);
+public:
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attack")
+	void LoadAttackLevelData();
+
+	//Attack Speed Table
+protected:
+	
+	
 public:
 	/*------------------------------------Cluster Handle-----------------------------------------*/
 	//Cluster
@@ -84,15 +103,19 @@ public:
 
 	/*------------------------------------Plant Enhancement Property--------------------------------------*/
 public:
+	void IncreaseMagicPower(float MagicPowerPoint);
+	void IncreaseSpeedPower(float SpeedPowerPoint);
+	void IncreaseManaPower(float ManaPowerPoint);
+private:
 	//Update Visual Factor
-	void UpdateMagicPowerVisual(float MagicPowerPoint);
-	void UpdateSpeedPowerVisual(float SpeedPowerPoint);
-	void UpdateManaPowerVisual(float ManaPowerPoint);
+	void UpdateMagicPowerVisual(float NormalisedAmount);
+	void UpdateSpeedPowerVisual(float NormalisedAmount);
+	void UpdateManaPowerVisual(float NormalisedAmount);
 	
 	//Update Numeric Factor (such as Damage and Speed)
-	void UpdateMagicPowerNumeric(float MagicPowerPoint);
-	void UpdateSpeedPowerNumeric(float SpeedPowerPoint);
-	void UpdateManaPowerNumeric(float ManaPowerPoint);
+	void UpdateMagicPowerNumeric(float NormalisedAmount);
+	void UpdateSpeedPowerNumeric(float NormalisedAmount);
+	void UpdateManaPowerNumeric(float NormalisedAmount);
 };
 
 

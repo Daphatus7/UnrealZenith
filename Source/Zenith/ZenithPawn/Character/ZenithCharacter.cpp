@@ -149,13 +149,15 @@ void AZenithCharacter::Notify()
 void AZenithCharacter::AddMagicPowerPoint(float Amount)
 {
 	PlayerAttribute.MagicPowerPoint += Amount;
-	OnAddMagicPowerPoint();
+	if(AttackComponent)
+		AttackComponent->IncreaseMagicPower(PlayerAttribute.MagicPowerPoint);
 }
 
 void AZenithCharacter::AddSpeedPowerPoint(float Amount)
 {
 	PlayerAttribute.SpeedPowerPoint += Amount;
-	OnAddSpeedPowerPoint();
+	if(AttackComponent)
+		AttackComponent->IncreaseSpeedPower(PlayerAttribute.SpeedPowerPoint);
 }
 
 void AZenithCharacter::AddPhysiquePowerPoint(float Amount)
@@ -165,44 +167,11 @@ void AZenithCharacter::AddPhysiquePowerPoint(float Amount)
 	PlayerAttribute.HealthMax += Amount;
 	if(PlayerUIHandle)
 		PlayerUIHandle->UpdateHealth();
-	OnAddPhysiquePowerPoint();
 }
 
 void AZenithCharacter::AddManaPowerPoint(float Amount)
 {
 	PlayerAttribute.MagicPowerPoint += Amount;
-	OnAddManaPowerPoint();
-}
-
-void AZenithCharacter::OnAddMagicPowerPoint()
-{
-	//Message Attack Component and make relevant modification of visual representation
 	if(AttackComponent)
-	{
-		AttackComponent->UpdateMagicPowerVisual(PlayerAttribute.MagicPowerPoint);
-		AttackComponent->UpdateMagicPowerNumeric(PlayerAttribute.MagicPowerPoint);
-	}
-}
-
-void AZenithCharacter::OnAddSpeedPowerPoint()
-{
-	if(AttackComponent)
-	{
-		AttackComponent->UpdateSpeedPowerVisual(PlayerAttribute.SpeedPowerPoint);
-		AttackComponent->UpdateSpeedPowerNumeric(PlayerAttribute.SpeedPowerPoint);
-	}
-}
-
-void AZenithCharacter::OnAddPhysiquePowerPoint()
-{
-	//not implemented
-}
-
-void AZenithCharacter::OnAddManaPowerPoint()
-{
-	if(AttackComponent)
-	{
-		AttackComponent->UpdateManaPowerVisual(PlayerAttribute.SpeedPowerPoint);
-		AttackComponent->UpdateManaPowerNumeric(PlayerAttribute.SpeedPowerPoint);
-	}
+		AttackComponent->IncreaseManaPower(PlayerAttribute.MagicPowerPoint);
 }

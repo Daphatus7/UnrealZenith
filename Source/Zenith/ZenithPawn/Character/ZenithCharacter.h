@@ -104,11 +104,6 @@ public:
 	void AddPhysiquePowerPoint(float Amount);
 	UFUNCTION(BlueprintCallable, Category = "Plant")
 	void AddManaPowerPoint(float Amount);
-
-	void OnAddMagicPowerPoint();
-	void OnAddSpeedPowerPoint();
-	void OnAddPhysiquePowerPoint();
-	void OnAddManaPowerPoint();
 #pragma endregion
 	
 };

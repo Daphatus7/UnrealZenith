@@ -83,6 +83,28 @@ void UAttackComponent::AssignAttackType(FAttackProperty AttackType)
 
 //-------------------------------------Attack Modification--------------------------------------------------//
 
+float UAttackComponent::GetAttackLevelData(int32 Level)
+{
+	//data not loaded
+	if (AttackLevelData.Num() == 0)
+	{
+		LoadAttackLevelData();
+		if(AttackLevelData.Num() == 0)
+		{
+			//return maximum float number
+			return TNumericLimits<float>::Max()/2;
+		}
+	}
+	//Data has loaded and valid index
+	if (AttackLevelData.IsValidIndex(Level - 1))
+	{
+		return AttackLevelData[Level - 1];
+	}
+	
+	//return max value if the level is out of range
+	return AttackLevelData.Last();
+}
+
 void UAttackComponent::UpdateCluster()
 {
 	AttackCluster->UpdateCluster(AttackProperty.MovementSpeed, AttackProperty.OffCenterDistance, AttackProperty.ClusterSize);
@@ -132,7 +154,6 @@ void UAttackComponent::IncreaseMovementSpeed(float MovementSpeed)
 {
 	AttackProperty.MovementSpeed += MovementSpeed;
 }
-
 
 void UAttackComponent::IncreaseClusterSize(int32 ClusterSize)
 {
@@ -222,41 +243,64 @@ void UAttackComponent::ReinitializeAttackProperty()
 		AttackProperty.DamageArea);
 }
 
-void UAttackComponent::UpdateMagicPowerVisual(float MagicPowerPoint)
+void UAttackComponent::IncreaseMagicPower(float MagicPowerPoint)
 {
+	//the amount of exp to level up n.% level. percentage of exp
+	//can levelup
+	if(MagicPowerPoint > GetAttackLevelData(AttackLevel))
+	{
+		//Level up
+		AttackLevel++;
+		//Play Level Up Effect
+	}
 
-	//first check if it has enough EXP to level up the attack
 	
+	float NormalisedAmount = (MagicPowerPoint - GetAttackLevelData(AttackLevel - 1))
+								/ (GetAttackLevelData(AttackLevel) - GetAttackLevelData(AttackLevel - 1));
+	UpdateMagicPowerVisual(NormalisedAmount);
+}
+
+void UAttackComponent::IncreaseSpeedPower(float SpeedPowerPoint)
+{
+	UpdateSpeedPowerVisual(SpeedPowerPoint);
+}
+
+void UAttackComponent::IncreaseManaPower(float ManaPowerPoint)
+{
+}
+
+void UAttackComponent::UpdateMagicPowerVisual(float NormalisedAmount)
+{
 	for(AAttack* Attack: AttackCluster->GetAttacks())
 	{
-		Attack->OnUpdateMagicPowerVisual(MagicPowerPoint);
+		Attack->OnUpdateMagicPowerVisual(AttackLevel, NormalisedAmount);
 	}
 }
 
-void UAttackComponent::UpdateSpeedPowerVisual(float SpeedPowerPoint)
+void UAttackComponent::UpdateSpeedPowerVisual(float NormalisedAmount)
 {
 	for(AAttack* Attack: AttackCluster->GetAttacks())
 	{
-		Attack->OnUpdateSpeedPowerVisual(SpeedPowerPoint);
+		Attack->OnUpdateSpeedPowerVisual(AttackLevel, NormalisedAmount);
 	}
 }
 
-void UAttackComponent::UpdateManaPowerVisual(float ManaPowerPoint)
+void UAttackComponent::UpdateManaPowerVisual(float NormalisedAmount)
 {
 	
 }
 
-void UAttackComponent::UpdateMagicPowerNumeric(float MagicPowerPoint)
+void UAttackComponent::UpdateMagicPowerNumeric(float NormalisedAmount)
 {
 	ReinitializeAttackProperty();
 }
 
-void UAttackComponent::UpdateSpeedPowerNumeric(float SpeedPowerPoint)
+void UAttackComponent::UpdateSpeedPowerNumeric(float NormalisedAmount)
 {
 	ReinitializeAttackProperty();
 }
 
-void UAttackComponent::UpdateManaPowerNumeric(float ManaPowerPoint)
+void UAttackComponent::UpdateManaPowerNumeric(float NormalisedAmount)
 {
 	ReinitializeAttackProperty();
 }

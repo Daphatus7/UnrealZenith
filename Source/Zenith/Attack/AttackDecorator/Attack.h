@@ -86,7 +86,7 @@ public:
 	void DebugAttackMessage() const;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Attack Visual")
-	void OnUpdateMagicPowerVisual(float Amount);
+	void OnUpdateMagicPowerVisual(int Level, float Amount);
 	UFUNCTION(BlueprintImplementableEvent, Category = "Attack Visual")
-	void OnUpdateSpeedPowerVisual(float Amount);
+	void OnUpdateSpeedPowerVisual(int Level, float Amount);
 };
