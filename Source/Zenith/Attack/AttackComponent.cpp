@@ -4,7 +4,7 @@
 #include "AttackComponent.h"
 #include "Zenith/Attack/AttackProperty.h"
 #include "Zenith/Library/ZenithFunctionLibrary.h"
-#include "Kismet/GameplayStatics.h"
+#include "Zenith/ZenithPawn/Character/ZenithCharacter.h"
 
 UAttackComponent::UAttackComponent()
 {
@@ -105,6 +105,7 @@ float UAttackComponent::GetAttackLevelExperience(int32 Level)
 	return AttackLevelData.Last();
 }
 
+
 float UAttackComponent::GetAttackSpeedCurveValue(int32 Level)
 {
 	//data not loaded
@@ -131,17 +132,24 @@ void UAttackComponent::LoadAttackSpeedTable()
 {
 	if(UZenithFunctionLibrary::LoadCurveTableData(AttackSpeedTable, "Curve", AttackSpeedData, TotalLevels * 10))
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Attack Speed Data Loaded"));
-		//print out debug log
-		// for(float Value: AttackSpeedData)
-		// {
-		// 	UE_LOG(LogTemp, Warning, TEXT("Attack Speed Data: %f"), Value);
-		// }
-	}
-	else
-	{
 		UE_LOG(LogTemp, Warning, TEXT("Attack Speed Data Not Loaded"));
 	}
+}
+
+void UAttackComponent::LoadAttackLevelData()
+{
+	if(!UZenithFunctionLibrary::LoadCurveTableData(AttackLevelTable, "Curve", AttackLevelData, TotalLevels))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Attack Level Data Not Loaded"));
+	}
+	// else
+	// {
+	// 	//print out the attack level data
+	// 	for(float Data: AttackLevelData)
+	// 	{
+	// 		UE_LOG(LogTemp, Warning, TEXT("Attack Level Data: %f"), Data);
+	// 	}
+	// }
 }
 
 void UAttackComponent::UpdateCluster()
@@ -285,29 +293,49 @@ void UAttackComponent::ReinitializeAttackProperty()
 void UAttackComponent::IncreaseMagicPower(float MagicPowerPoint)
 {
 	//the amount of exp to level up n.% level. percentage of exp
-	//can levelup
+	//Record Previous EXP and Current EXP to calculate the current EXP percentage
 	const float CurrentExp = GetAttackLevelExperience(AttackLevel);
 	const float PreviousExp = GetAttackLevelExperience(AttackLevel - 1);
 	if(MagicPowerPoint > CurrentExp)
 	{
-		//Level up
+		//Has enough EXP to level up attack -> change attack Effect
 		AttackLevel++;
 		//Play Level Up Effect
+		MagicPowerLevelUpEffect();
 	}
 	const float NormalisedAmount = (MagicPowerPoint - PreviousExp)
-								/ (CurrentExp - PreviousExp);
-	UpdateMagicPowerVisual(NormalisedAmount);
+								/ ( CurrentExp - PreviousExp);
+	//Update Visual Factor
+	/*------------------------------------Visual not updating------------------------------------*/
+	//UpdateMagicPowerVisual(NormalisedAmount);
+	//Update Numeric Factor
+	UpdateMagicPowerNumeric(MagicPowerPoint);
 }
 
 void UAttackComponent::IncreaseSpeedPower(float SpeedPowerPoint)
 {
-	UpdateSpeedPowerVisual(SpeedPowerPoint);
 	//Update rotation speed of cluster
-	AttackProperty.MovementSpeed = AttackPropertyDefault.MovementSpeed * GetAttackSpeedCurveValue(SpeedPowerPoint);
-	AttackCluster->UpdateCluster(AttackProperty.MovementSpeed, AttackProperty.OffCenterDistance, AttackProperty.ClusterSize);
+	//Get Stepped value from the curve
+	const float SpeedValue = GetAttackSpeedCurveValue(SpeedPowerPoint);
+	//if the integer value is the number of projectiles which will be added to the cluster
+	const int32 NewClusterSize = FMath::FloorToInt(SpeedValue);
+	if(NewClusterSize != AttackProperty.ClusterSize)
+	{
+		AttackProperty.ClusterSize = NewClusterSize;
+		AttackProperty.MovementSpeed = AttackPropertyDefault.MovementSpeed * SpeedValue;
+		AttackCluster->UpdateCluster(AttackProperty.MovementSpeed, AttackProperty.OffCenterDistance, AttackProperty.ClusterSize);
+		UpdateSpeedPowerNumeric(SpeedPowerPoint);
+		UpdateSpeedPowerVisual(SpeedPowerPoint);
+	}
+	else
+	{
+		//Update Speed Power Visual
+		AttackProperty.MovementSpeed = AttackPropertyDefault.MovementSpeed * SpeedValue;
+		AttackCluster->UpdateCluster(AttackProperty.MovementSpeed, AttackProperty.OffCenterDistance, AttackProperty.ClusterSize);
+		UpdateSpeedPowerVisual(SpeedPowerPoint);
+	}
+
 	//Debug_Log
-	UE_LOG(LogTemp, Warning, TEXT("Speed Power Point: %f"), SpeedPowerPoint);
-	UE_LOG(LogTemp, Warning, TEXT("Speed Power: %f"), AttackProperty.MovementSpeed);
 }
 
 void UAttackComponent::IncreaseManaPower(float ManaPowerPoint)
@@ -335,17 +363,39 @@ void UAttackComponent::UpdateManaPowerVisual(float NormalisedAmount)
 	
 }
 
-void UAttackComponent::UpdateMagicPowerNumeric(float NormalisedAmount)
+void UAttackComponent::UpdateMagicPowerNumeric(float MagicPowerPoint)
 {
+	RecalculateDamage();
 	ReinitializeAttackProperty();
 }
 
 void UAttackComponent::UpdateSpeedPowerNumeric(float NormalisedAmount)
 {
+	RecalculateDamage();
 	ReinitializeAttackProperty();
 }
 
 void UAttackComponent::UpdateManaPowerNumeric(float NormalisedAmount)
 {
 	ReinitializeAttackProperty();
+}
+
+void UAttackComponent::IncreaseClusterSize(float NumberOfProjectiles)
+{
+	
+	AttackProperty.ClusterSize += NumberOfProjectiles;
+	//Update Split Damage
+	RecalculateDamage();
+}
+
+void UAttackComponent::RecalculateDamage()
+{
+	//get player character
+	if(const AZenithCharacter * PlayerCharacter = Cast<AZenithCharacter>(GetOwner()))
+	{
+		//get the magic power points
+		const float MagicPowerPoint = PlayerCharacter->GetMagicPowerPoint();
+		//recalculate the damage
+		AttackProperty.Damage = MagicPowerPoint / AttackProperty.ClusterSize;
+	}
 }

@@ -64,7 +64,7 @@ protected:
 	//Get Attack Level Data
 	UFUNCTION(BlueprintCallable, Category = "Attack")
 	float GetAttackLevelExperience(int32 Level);
-	UFUNCTION(BlueprintImplementableEvent, Category = "Attack")
+	UFUNCTION(BlueprintCallable, Category = "Attack")
 	void LoadAttackLevelData();
 #pragma endregion
 	/*------------------------------------Attack Speed Table-----------------------------------------*/
@@ -119,6 +119,10 @@ public:
 	void IncreaseMagicPower(float MagicPowerPoint);
 	void IncreaseSpeedPower(float SpeedPowerPoint);
 	void IncreaseManaPower(float ManaPowerPoint);
+
+	//Level up Effect
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attack")
+	void MagicPowerLevelUpEffect();
 private:
 	//Update Visual Factor
 	void UpdateMagicPowerVisual(float NormalisedAmount);
@@ -126,9 +130,20 @@ private:
 	void UpdateManaPowerVisual(float NormalisedAmount);
 	
 	//Update Numeric Factor (such as Damage and Speed)
-	void UpdateMagicPowerNumeric(float NormalisedAmount);
+	void UpdateMagicPowerNumeric(float MagicPowerPoint);
 	void UpdateSpeedPowerNumeric(float NormalisedAmount);
 	void UpdateManaPowerNumeric(float NormalisedAmount);
+
+	/**
+	 * Increase the Cluster Size
+	 * @param NewTotalProjectiles - number of projectiles 
+	 */
+	void IncreaseClusterSize(float NumberOfProjectiles);
+	/**
+	 * Total Magic Power / number of projectiles
+	 * Only Calculate but not updating
+	 */
+	void RecalculateDamage();
 };
 
 

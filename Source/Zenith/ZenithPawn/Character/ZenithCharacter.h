@@ -104,6 +104,15 @@ public:
 	void AddPhysiquePowerPoint(float Amount);
 	UFUNCTION(BlueprintCallable, Category = "Plant")
 	void AddManaPowerPoint(float Amount);
+	// getters
+	UFUNCTION(BlueprintPure, Category = "Plant")
+	float GetMagicPowerPoint() const { return PlayerAttribute.MagicPowerPoint; }
+	UFUNCTION(BlueprintPure, Category = "Plant")
+	float GetSpeedPowerPoint() const { return PlayerAttribute.SpeedPowerPoint; }
+	UFUNCTION(BlueprintPure, Category = "Plant")
+	float GetPhysiquePowerPoint() const { return PlayerAttribute.PhysiquePowerPoint; }
+	UFUNCTION(BlueprintPure, Category = "Plant")
+	float GetManaPowerPoint() const { return PlayerAttribute.ManaPowerPoint; }
 #pragma endregion
 	
 };
