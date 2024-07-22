@@ -44,14 +44,16 @@ class ZENITH_API AZenithGameMode : public AGameModeBase, public IPlayerUIHandle,
 	//Plant Power Table
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Plant", meta = (AllowPrivateAccess = "true"))
 	TArray<float> PlantPowerTableData;
+
+	//Resources
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Resources", meta = (AllowPrivateAccess = "true"))
+	TMap<E_ResourceType, int32> Resources;
 protected:
 	//Spawn Volumes
 	UPROPERTY(BlueprintReadOnly, Category = "Spawn")
 	TArray<class ASpawnVolume *> SpawnVolumes;
 
-	//Resources
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Resources")
-	TMap<E_ResourceType, int32> Resources;
+
 
 	/*--------------------------------Tables----------------------------------
 								  Assign in game
@@ -232,6 +234,8 @@ protected:
 
 	//Add Monster Drops to Player
 	void AddMonsterDrops(E_ResourceType Type, int32 Amount);
+	UFUNCTION(BlueprintCallable, Category = "Monster")
+	void AddMapDrop(E_ResourceType Type, int32 Amount);
 #pragma endregion
 	/*----------------------------------Plant Triggered Events--------------------------------*/
 private:
