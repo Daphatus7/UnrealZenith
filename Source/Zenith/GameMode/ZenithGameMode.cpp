@@ -342,14 +342,14 @@ void AZenithGameMode::GetResources_Implementation(TMap<E_ResourceType, int32>& P
 
 void AZenithGameMode::AddResource_Implementation(const E_ResourceType ResourceType, const int32 Amount)
 {
-	if(int32* FoundResource = Resources.Find(ResourceType))
+	if(int32 * FoundResource = Resources.Find(ResourceType))
 	{
 		*FoundResource += Amount;
-		
 		HandleUpdateResource(ResourceType, *FoundResource);
 	}
 	else
 	{
+		
 		Resources.Add(ResourceType, Amount);
 		HandleUpdateResource(ResourceType, *FoundResource);
 	}
@@ -394,6 +394,8 @@ void AZenithGameMode::AddExperience(const int32 Amount)
 
 void AZenithGameMode::AddMonsterDrops(const E_ResourceType Type, const int32 Amount)
 {
+	//debug message
+	UE_LOG(LogTemp, Warning, TEXT("Monster Drop: %d %d"), (int32)Type, Amount);
 	AddResource_Implementation(Type, Amount);
 }
 

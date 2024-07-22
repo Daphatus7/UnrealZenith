@@ -5,6 +5,7 @@ enum class EResourceType
 	Star,
 	Moon,
 	Sun,
+	Gold
 };
 
 //unreal enum
@@ -14,4 +15,5 @@ enum class E_ResourceType : uint8
 	Star,
 	Moon,
 	Sun,
+	Gold
 };
