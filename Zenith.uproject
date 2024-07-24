@@ -153,9 +153,7 @@
 		"Android",
 		"Windows",
 		"Mac",
-		"IOS",
-		"TVOS",
-		"Linux"
+		"IOS"
 	],
 	"EpicSampleNameHash": "2679385369"
 }

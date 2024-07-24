@@ -250,8 +250,8 @@ private:
 	//Player Health Power
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Plant", meta = (AllowPrivateAccess = "true"))
 	float PlayerHealthPower = 0.0f;
-	
 #pragma region Plant Events
+	
 public:
 	UFUNCTION(BlueprintCallable, Category = "Plant")
 	virtual void HarvestPlant(FPlantEffect PlantEffect);
@@ -265,5 +265,3 @@ public:
 	void LoadPlantPowerTable();
 #pragma endregion
 };
-
-
