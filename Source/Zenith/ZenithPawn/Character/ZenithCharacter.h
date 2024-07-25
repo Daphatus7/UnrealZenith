@@ -71,6 +71,19 @@ public:
 	//Take Damage
 	UFUNCTION(BlueprintCallable, Category = "Attack")
 	virtual bool Attack(FVector CursorLocation);
+
+	/**
+	 * Blueprint only event, finished initializing attack, attack automatically	
+	 */
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attack")
+	void OnStartAttack();
+
+	/**
+	 * stop attack
+	 */
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attack")
+	void OnStopAttack();
+	
 	//IEnhance
 	virtual void IncreaseHealth(float HealthAmount) override;
 	virtual void IncreaseDamage(float DamageAmount) override;

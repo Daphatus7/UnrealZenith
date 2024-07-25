@@ -119,6 +119,7 @@ UAttackComponent * AZenithCharacter::LoadSkill(FAttackProperty* AttackProperty)
 	if (AttackProperty && AttackComponent)
 	{
 		AttackComponent->AssignAttackType(*AttackProperty);
+		OnStartAttack();
 		return AttackComponent;
 	}
 	UE_LOG(LogTemplateCharacter, Error, TEXT("Attack Property or AttackComponent is null"));

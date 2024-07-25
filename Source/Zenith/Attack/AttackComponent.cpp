@@ -309,7 +309,7 @@ void UAttackComponent::IncreaseMagicPower(float MagicPowerPoint)
 	/*------------------------------------Visual not updating------------------------------------*/
 	//UpdateMagicPowerVisual(NormalisedAmount);
 	//Update Numeric Factor
-	UpdateMagicPowerNumeric(MagicPowerPoint);
+	UpdateMagicPowerNumeric(MagicPowerPoint, MagicPowerPoint);
 }
 
 void UAttackComponent::IncreaseSpeedPower(float SpeedPowerPoint)
@@ -363,15 +363,15 @@ void UAttackComponent::UpdateManaPowerVisual(float NormalisedAmount)
 	
 }
 
-void UAttackComponent::UpdateMagicPowerNumeric(float MagicPowerPoint)
+void UAttackComponent::UpdateMagicPowerNumeric(float MagicPowerPoint, float NormalisedAmount)
 {
-	RecalculateDamage();
+	RecalculateDamage(MagicPowerPoint);
 	ReinitializeAttackProperty();
 }
 
-void UAttackComponent::UpdateSpeedPowerNumeric(float NormalisedAmount)
+void UAttackComponent::UpdateSpeedPowerNumeric(float SpeedPowerPoint)
 {
-	RecalculateDamage();
+	RecalculateDamage(SpeedPowerPoint);
 	ReinitializeAttackProperty();
 }
 
@@ -380,22 +380,16 @@ void UAttackComponent::UpdateManaPowerNumeric(float NormalisedAmount)
 	ReinitializeAttackProperty();
 }
 
-void UAttackComponent::IncreaseClusterSize(float NumberOfProjectiles)
+void UAttackComponent::IncreaseClusterSize(const float NumberOfProjectiles)
 {
 	
 	AttackProperty.ClusterSize += NumberOfProjectiles;
 	//Update Split Damage
-	RecalculateDamage();
 }
 
-void UAttackComponent::RecalculateDamage()
+void UAttackComponent::RecalculateDamage(const float MagicPowerPoint)
 {
-	//get player character
-	if(const AZenithCharacter * PlayerCharacter = Cast<AZenithCharacter>(GetOwner()))
-	{
-		//get the magic power points
-		const float MagicPowerPoint = PlayerCharacter->GetMagicPowerPoint();
-		//recalculate the damage
-		AttackProperty.Damage = MagicPowerPoint / AttackProperty.ClusterSize;
-	}
+	//get the magic power points
+	//recalculate the damage
+	AttackProperty.Damage = AttackPropertyDefault.Damage + MagicPowerPoint;
 }

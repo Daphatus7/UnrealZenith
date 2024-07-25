@@ -130,8 +130,8 @@ private:
 	void UpdateManaPowerVisual(float NormalisedAmount);
 	
 	//Update Numeric Factor (such as Damage and Speed)
-	void UpdateMagicPowerNumeric(float MagicPowerPoint);
-	void UpdateSpeedPowerNumeric(float NormalisedAmount);
+	void UpdateMagicPowerNumeric(float MagicPowerPoint, float NormalisedAmount);
+	void UpdateSpeedPowerNumeric(float SpeedPowerPoint);
 	void UpdateManaPowerNumeric(float NormalisedAmount);
 
 	/**
@@ -143,7 +143,7 @@ private:
 	 * Total Magic Power / number of projectiles
 	 * Only Calculate but not updating
 	 */
-	void RecalculateDamage();
+	void RecalculateDamage(float MagicPowerPoint);
 };
 
 

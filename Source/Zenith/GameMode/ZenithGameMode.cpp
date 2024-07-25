@@ -166,6 +166,8 @@ void AZenithGameMode::StartGame() const
 {
 	//Enable State Tick
 	GetWorld()->GetGameState()->SetActorTickEnabled(true);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Game Started"));
+	//Cast Spell
 }
 
 void AZenithGameMode::LoadPlayerSkill(int32 Selected)
@@ -227,9 +229,8 @@ void AZenithGameMode::SelectCharacter(int32 Selected)
 {
 	if(GEngine)
 	{
-		AZenithGameMode::StartGame();
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Game Started"));
 		LoadPlayerSkill(Selected);
+		StartGame();
 	}
 }
 

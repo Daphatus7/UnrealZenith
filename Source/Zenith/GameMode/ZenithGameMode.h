@@ -132,7 +132,6 @@ private:
 	//Player Controlled to start the game
 	void StartGame() const;
 	void LoadPlayerSkill(int32 SelectedCharacter);
-
 #pragma endregion
 	//--------------------------------Player Resource & EXP Management--------------------------------
 #pragma region Player Resource Management
