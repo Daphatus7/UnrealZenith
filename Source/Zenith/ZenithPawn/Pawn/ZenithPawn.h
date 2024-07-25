@@ -15,8 +15,6 @@ class ZENITH_API AZenithPawn : public ACharacter, public INotification
 {
 	GENERATED_BODY()
 
-
-	
 	//damage Widget
 	static UClass* DamageBlueprintClass;
 
