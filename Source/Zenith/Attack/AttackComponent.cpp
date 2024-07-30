@@ -371,7 +371,7 @@ void UAttackComponent::UpdateMagicPowerNumeric(float MagicPowerPoint, float Norm
 
 void UAttackComponent::UpdateSpeedPowerNumeric(float SpeedPowerPoint)
 {
-	RecalculateDamage(SpeedPowerPoint);
+	AttackProperty.MovementSpeed = AttackPropertyDefault.MovementSpeed * GetAttackSpeedCurveValue(SpeedPowerPoint);
 	ReinitializeAttackProperty();
 }
 

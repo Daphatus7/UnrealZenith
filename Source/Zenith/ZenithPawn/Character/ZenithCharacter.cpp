@@ -93,6 +93,7 @@ bool AZenithCharacter::Attack(FVector CursorLocation)
 void AZenithCharacter::IncreaseHealth(float HealthAmount)
 {
 	PlayerAttribute.Health += HealthAmount;
+	
 	if(PlayerUIHandle)
 	PlayerUIHandle->UpdateHealth();
 }
