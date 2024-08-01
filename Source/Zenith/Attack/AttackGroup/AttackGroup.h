@@ -20,7 +20,7 @@ class ZENITH_API AAttackGroup : public AActor
 protected:
 	//-----------------------------------Attacks to control-----------------------------------------
 	//All the attacks in the cluster
-	UPROPERTY(EditAnywhere, Category = "Attack Cluster")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Attack, meta = (AllowPrivateAccess = "true"))
 	TArray<AAttack*> Attacks;
 	
 	//-----------------------------------Modifiable Properties --------------------------------------
@@ -111,10 +111,8 @@ public:
 
 	//-----------------------------------Attack Control ---------------------------------------------
 	//Move to initial Location
-	virtual void InitializeAttack(AActor* Attack)
-	{
-		
-	}
+	UFUNCTION(BlueprintNativeEvent, Category = "Attack")
+	void InitializeAttack(AActor* Attack);
 
 	virtual void UpdateCluster(const float NewMovementSpeed, const float NewOffCenterDistance, const int32 NewClusterSize)
 	{

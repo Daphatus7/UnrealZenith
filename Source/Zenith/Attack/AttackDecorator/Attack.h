@@ -65,6 +65,7 @@ public:
 	//Deactivate
 	virtual void Deactivate();
 	//Check if active
+	UFUNCTION(BlueprintCallable, Category = "Attack")
 	virtual bool IsAttackActive() 
 	{
 		return bIsActiveActive;

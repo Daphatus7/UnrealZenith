@@ -108,7 +108,7 @@ public:
 	 * This function manages the Monster Spawning
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Game Management")
-	void SpawnMonsters();
+	void SpawnMonsters(const int NumberOfMonsters);
 
 	/**
 	 * Get Random Spawn Location

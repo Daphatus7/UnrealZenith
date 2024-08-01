@@ -90,10 +90,9 @@ void AZenithGameMode::LoadExperienceTable()
 }
 
 
-void AZenithGameMode::SpawnMonsters()
+void AZenithGameMode::SpawnMonsters(const int NumberOfMonsters)
 {
 	//Number of Monsters to Spawn
-	int32 NumberOfMonsters = 5;
 	FMonsterAttribute MonsterToSpawn = GetMonsterToSpawn();
 	//Types of Monsters to Spawn
 	for(int i = 0; i < NumberOfMonsters; i++)

@@ -27,7 +27,7 @@ public:
 	virtual void UpdateMotion(float DeltaTime) override;
 
 	// Already called in RegisterAttack. This further modifies the behaviour of the attack when initialized
-	virtual void InitializeAttack(AActor* Attack) override
+	virtual void InitializeAttack_Implementation(AActor* Attack) override
 	{
 		Attack->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 		Attack->SetActorLocation(GetActorLocation());

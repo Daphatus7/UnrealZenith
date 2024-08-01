@@ -58,4 +58,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Zenith Function Library", meta = (Keywords = "ZenithFunctionLibrary"))
 	static bool LoadCurveTableData(UCurveTable* CurveTable, FName RowName, TArray<float>& Data, int32 NumberOfPoints);
+
+	UFUNCTION(BlueprintCallable, Category = "Zenith Function Library/Sort", meta = (Keywords = "Sort"))
+	static void SortVectorArray(const TArray<FVector> Array, const FVector& Origin, TArray<FVector>& SortedArray);
+	
 };

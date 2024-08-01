@@ -112,3 +112,13 @@ bool UZenithFunctionLibrary::LoadCurveTableData(UCurveTable* CurveTable, const F
  }
  return false;
 }
+
+void UZenithFunctionLibrary::SortVectorArray(const TArray<FVector> Array, const FVector& Origin, TArray<FVector>& SortedArray)
+{
+ SortedArray = Array;
+ std::sort(SortedArray.GetData(), SortedArray.GetData() + SortedArray.Num(),
+  [Origin](const FVector& A, const FVector& B)
+  {
+   return FVector::DistSquared(Origin, A) < FVector::DistSquared(Origin, B);
+  });
+}
