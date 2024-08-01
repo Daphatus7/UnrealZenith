@@ -5,11 +5,10 @@
 #include "CoreMinimal.h"
 #include "PlayerAttribute.h"
 #include "PlayerAttributeHandle.h"
-#include "GameFramework/Character.h"
 #include "Zenith/Attack/AttackComponent.h"
-#include "PlayerAttribute.h"
 #include "Logging/LogMacros.h"
 #include "Zenith/GameMode/GameModeUIHandle/PlayerUIHandle.h"
+#include "Zenith/ZenithPawn/Pawn/ZenithPawn.h"
 #include "ZenithCharacter.generated.h"
 
 class USpringArmComponent;
@@ -23,15 +22,6 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 UCLASS(config=Game)
 class AZenithCharacter : public AZenithPawn, public IPlayerAttributeHandle
 {
-public:
-	virtual void AddAttackModifier(FAttackModifier * Modifier) override
-	{
-		AttackComponent->AddAttackModifier(Modifier);
-	}
-	virtual void RemoveAttackModifier(FAttackModifier * Modifier) override
-	{
-		AttackComponent->RemoveAttackModifier(Modifier);
-	}
 
 private:
 	GENERATED_BODY()
@@ -92,8 +82,6 @@ public:
 	//on take damage effect
 	virtual void OnTakeDamageEffect(float DamageAmount) override;
 
-	//Load Skill
-	virtual UAttackComponent * LoadSkill(FAttackProperty * AttackProperty);
 
 	/*-----------------Taking Damage-----------------*/
 	//On taking damage

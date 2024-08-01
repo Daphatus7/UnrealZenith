@@ -81,12 +81,6 @@ void AZenithCharacter::Tick(float DeltaTime)
 
 bool AZenithCharacter::Attack(FVector CursorLocation)
 {
-	FVector Direction = CursorLocation - GetActorLocation();
-	if(AttackComponent)
-	{
-		//printout Attack Component
-		return AttackComponent->Attack(Direction);
-	}
 	return false;
 }
 
@@ -100,12 +94,10 @@ void AZenithCharacter::IncreaseHealth(float HealthAmount)
 
 void AZenithCharacter::IncreaseDamage(float DamageAmount)
 {
-	AttackComponent->IncreaseDamage(DamageAmount);
 }
 
 void AZenithCharacter::IncreaseSpeed(float SpeedAmount)
 {
-	AttackComponent->IncreaseMovementSpeed(SpeedAmount);
 }
 
 void AZenithCharacter::OnTakeDamageEffect(float DamageAmount)
@@ -115,17 +107,6 @@ void AZenithCharacter::OnTakeDamageEffect(float DamageAmount)
 	PlayerUIHandle->UpdateHealth();
 }
 
-UAttackComponent * AZenithCharacter::LoadSkill(FAttackProperty* AttackProperty)
-{
-	if (AttackProperty && AttackComponent)
-	{
-		AttackComponent->AssignAttackType(*AttackProperty);
-		OnStartAttack();
-		return AttackComponent;
-	}
-	UE_LOG(LogTemplateCharacter, Error, TEXT("Attack Property or AttackComponent is null"));
-	return nullptr;
-}
 
 
 void AZenithCharacter::OnTakingDamage(const float DamageAmount, AActor* DamageCauser)
@@ -134,7 +115,6 @@ void AZenithCharacter::OnTakingDamage(const float DamageAmount, AActor* DamageCa
 	PlayerAttribute.Health -= DamageAmount;
 	if(PlayerAttribute.Health <= 0)
 	{
-		OnDeath();
 	}
 }
 
@@ -150,16 +130,10 @@ void AZenithCharacter::Notify()
 
 void AZenithCharacter::AddMagicPowerPoint(float Amount)
 {
-	PlayerAttribute.MagicPowerPoint += Amount;
-	if(AttackComponent)
-		AttackComponent->IncreaseMagicPower(PlayerAttribute.MagicPowerPoint);
 }
 
 void AZenithCharacter::AddSpeedPowerPoint(float Amount)
 {
-	PlayerAttribute.SpeedPowerPoint += Amount;
-	if(AttackComponent)
-		AttackComponent->IncreaseSpeedPower(PlayerAttribute.SpeedPowerPoint);
 }
 
 void AZenithCharacter::AddPhysiquePowerPoint(float Amount)
@@ -173,7 +147,4 @@ void AZenithCharacter::AddPhysiquePowerPoint(float Amount)
 
 void AZenithCharacter::AddManaPowerPoint(float Amount)
 {
-	PlayerAttribute.MagicPowerPoint += Amount;
-	if(AttackComponent)
-		AttackComponent->IncreaseManaPower(PlayerAttribute.MagicPowerPoint);
 }

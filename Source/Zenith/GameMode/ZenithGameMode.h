@@ -7,7 +7,6 @@
 #include "GameFramework/GameModeBase.h"
 #include "GameModeUIHandle/PlayerUIHandle.h"
 #include "GameModeUIHandle/ResourcesHandle.h"
-#include "Zenith/Attack/AttackComposite/AttackModifier.h"
 #include "Zenith/Interactable/PlantEffect.h"
 #include "Zenith/Inventory/Resource.h"
 #include "Zenith/ZenithPawn/Enemy/MonsterAttribute.h"
@@ -131,7 +130,7 @@ public:
 private:
 	//Player Controlled to start the game
 	void StartGame() const;
-	void LoadPlayerSkill(int32 SelectedCharacter);
+	void LoadPlayerSkill(int32 SelectedCharacter){}
 #pragma endregion
 	//--------------------------------Player Resource & EXP Management--------------------------------
 #pragma region Player Resource Management
@@ -191,18 +190,6 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category = "Player State")
 	void OnLevelUp();
 
-protected:
-	//Buff that can be selected for this round
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Buff", meta = (AllowPrivateAccess = "true"))
-	TArray<FAttackModifier> BuffsToSelect;
-
-	//Generate buffs to select
-	UFUNCTION(BlueprintCallable, Category = "Buff")
-	TArray<FAttackModifier> GenerateBuffsToSelect(int32 BuffNumber) const;
-
-	//Check If Selected buff is valid
-	UFUNCTION(BlueprintCallable,BlueprintPure, Category = "Buff")
-	FAttackModifier CheckBuff(TArray<FAttackModifier> Buffs, FName Selected, bool & Success);
 #pragma endregion
 
 #pragma region Player UI Management (Player Input)
@@ -218,9 +205,6 @@ protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "Buff")
 	void OnBuffSelected(FName Selected);
 
-	//Add Buff to Player
-	UFUNCTION(BlueprintCallable, Category = "Buff")
-	void AddBuffToPlayer(FAttackModifier Buff);
 #pragma endregion
 	
 	/*--------------------------------Monster Triggered Events--------------------------------*/

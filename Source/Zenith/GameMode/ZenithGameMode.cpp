@@ -169,61 +169,7 @@ void AZenithGameMode::StartGame() const
 	//Cast Spell
 }
 
-void AZenithGameMode::LoadPlayerSkill(int32 Selected)
-{
-	//cast to character
-	if(AZenithCharacter * PlayerCharacter = Cast<AZenithCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn()))
-	{
-		if(AttackPropertyTable)
-		{
-			if(const auto Data = AttackPropertyTable->FindRow<FAttackProperty>("DefaultAttack", ""))
-			{
-				PlayerAttackComponent = PlayerCharacter->LoadSkill(Data);
-			}
-		}
-		//load skill
-	}
-}
 
-TArray<FAttackModifier> AZenithGameMode::GenerateBuffsToSelect(int32 BuffNumber) const
-{
-	//three random buffs from attack modifier table
-	TArray<FAttackModifier> Buffs;
-	if(AttackModifierTable)
-	{
-		TArray<FAttackModifier*> LocalModifiers;
-		AttackModifierTable->GetAllRows<FAttackModifier>("", LocalModifiers);
-		//generate 3 unique random numbers within the table
-		//get table length
-		const int32 TableLength = LocalModifiers.Num();
-		TArray<int32> RandomNumbers;
-		const int32 BuffToGenerate = BuffNumber <= TableLength ? BuffNumber : TableLength;
-		while(RandomNumbers.Num() < BuffNumber)
-		{
-			RandomNumbers.AddUnique(FMath::RandRange(0, TableLength - 1));
-		}
-		//get the buff
-		for(int32 i = 0; i < BuffToGenerate; i++)
-		{
-			Buffs.Add(*LocalModifiers[RandomNumbers[i]]);
-		}
-	}
-	return Buffs;
-}
-
-FAttackModifier AZenithGameMode::CheckBuff(TArray<FAttackModifier> Buffs, FName Selected, bool & Success)
-{
-	for(const FAttackModifier& CurrBuff : Buffs)
-	{
-		if(CurrBuff.ItemName == Selected)
-		{
-			Success = true;
-			return CurrBuff;
-		}
-	}
-	Success = false;
-	return FAttackModifier();
-}
 void AZenithGameMode::SelectCharacter(int32 Selected)
 {
 	if(GEngine)
@@ -243,14 +189,6 @@ void AZenithGameMode::OnBuffSelected_Implementation(FName Selected)
 {
 }
 
-void AZenithGameMode::AddBuffToPlayer(FAttackModifier Buff)
-{
-	if(AZenithCharacter * PlayerCharacter = Cast<AZenithCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn()))
-	{
-		FAttackModifier * Copy = new FAttackModifier(Buff);
-		PlayerCharacter->AddAttackModifier(Copy);
-	}
-}
 
 void AZenithGameMode::OnMonsterKilled(const FName& MonsterName)
 {
