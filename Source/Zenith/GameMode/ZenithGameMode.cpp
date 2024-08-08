@@ -411,23 +411,8 @@ void AZenithGameMode::HarvestPlant(FPlantEffect PlantEffect)
 	}
 	if(Player)
 	{
-		switch (PlantEffect.PlantType)
-		{
-			case EPlantType::MagicPower:
-				Player->AddMagicPowerPoint(GetPlantPower(PlantEffect));
-				break;
-			case EPlantType::SpeedPower:
-				Player->AddSpeedPowerPoint(GetPlantPower(PlantEffect));
-				break;
-			case EPlantType::PhysiquePower:
-				Player->AddPhysiquePowerPoint(GetPlantPower(PlantEffect));
-				break;
-			case EPlantType::ManaPower:
-				Player->AddManaPowerPoint(GetPlantPower(PlantEffect));
-				break;
-			case EPlantType::MysteriousPower:
-				break;
-		}
+	//Debug log
+		
 	}
 	
 }

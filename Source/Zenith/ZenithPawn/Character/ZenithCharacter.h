@@ -5,9 +5,7 @@
 #include "CoreMinimal.h"
 #include "PlayerAttribute.h"
 #include "PlayerAttributeHandle.h"
-#include "GameFramework/Character.h"
 #include "Zenith/Attack/AttackComponent.h"
-#include "PlayerAttribute.h"
 #include "Logging/LogMacros.h"
 #include "Zenith/GameMode/GameModeUIHandle/PlayerUIHandle.h"
 #include "ZenithCharacter.generated.h"
@@ -84,10 +82,6 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Attack")
 	void OnStopAttack();
 	
-	//IEnhance
-	virtual void IncreaseHealth(float HealthAmount) override;
-	virtual void IncreaseDamage(float DamageAmount) override;
-	virtual void IncreaseSpeed(float SpeedAmount) override;
 	
 	//on take damage effect
 	virtual void OnTakeDamageEffect(float DamageAmount) override;
@@ -107,16 +101,7 @@ public:
 	float GetHealth() const { return PlayerAttribute.Health; }
 	UFUNCTION(BlueprintPure, Category = "Attribute")
 	float GetHealthMax() const { return PlayerAttribute.HealthMax; }
-
-	/*----------------------------------Plant magic---------------------------------*/
-	UFUNCTION(BlueprintCallable, Category = "Plant")
-	void AddMagicPowerPoint(float Amount);
-	UFUNCTION(BlueprintCallable, Category = "Plant")
-	void AddSpeedPowerPoint(float Amount);
-	UFUNCTION(BlueprintCallable, Category = "Plant")
-	void AddPhysiquePowerPoint(float Amount);
-	UFUNCTION(BlueprintCallable, Category = "Plant")
-	void AddManaPowerPoint(float Amount);
+	
 	// getters
 	UFUNCTION(BlueprintPure, Category = "Plant")
 	float GetMagicPowerPoint() const { return PlayerAttribute.MagicPowerPoint; }

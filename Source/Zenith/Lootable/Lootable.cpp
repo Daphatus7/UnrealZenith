@@ -29,24 +29,6 @@ void ALootable::BeginPlay()
 
 void ALootable::ApplyEffect(IPlayerAttributeHandle * PlayerHandle)
 {
-	if(PlayerHandle)
-	{
-		for(const auto [EffectType, Amount] : LootEffects)
-		{
-			switch (EffectType)
-			{	case EEffectType::IncreaseHealth:
-					PlayerHandle->IncreaseHealth(Amount);
-					break;
-				case EEffectType::IncreaseAttack:
-					PlayerHandle->IncreaseDamage(Amount);
-					break;
-				case EEffectType::IncreaseAttackMovementSpeed:
-					PlayerHandle->IncreaseSpeed(Amount);
-					break;
-				default: ;
-			}
-		}
-	}
 }
 
 void ALootable::NotifyActorBeginOverlap(AActor* OtherActor)

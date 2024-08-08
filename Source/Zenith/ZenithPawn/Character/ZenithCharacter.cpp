@@ -90,24 +90,6 @@ bool AZenithCharacter::Attack(FVector CursorLocation)
 	return false;
 }
 
-void AZenithCharacter::IncreaseHealth(float HealthAmount)
-{
-	PlayerAttribute.Health += HealthAmount;
-	
-	if(PlayerUIHandle)
-	PlayerUIHandle->UpdateHealth();
-}
-
-void AZenithCharacter::IncreaseDamage(float DamageAmount)
-{
-	AttackComponent->IncreaseDamage(DamageAmount);
-}
-
-void AZenithCharacter::IncreaseSpeed(float SpeedAmount)
-{
-	AttackComponent->IncreaseMovementSpeed(SpeedAmount);
-}
-
 void AZenithCharacter::OnTakeDamageEffect(float DamageAmount)
 {
 	Super::OnTakeDamageEffect(DamageAmount);
@@ -146,34 +128,4 @@ void AZenithCharacter::Notify()
 		if(Listener)
 			Listener->NotifyListener(&PlayerAttribute.Health);
 	}
-}
-
-void AZenithCharacter::AddMagicPowerPoint(float Amount)
-{
-	PlayerAttribute.MagicPowerPoint += Amount;
-	if(AttackComponent)
-		AttackComponent->IncreaseMagicPower(PlayerAttribute.MagicPowerPoint);
-}
-
-void AZenithCharacter::AddSpeedPowerPoint(float Amount)
-{
-	PlayerAttribute.SpeedPowerPoint += Amount;
-	if(AttackComponent)
-		AttackComponent->IncreaseSpeedPower(PlayerAttribute.SpeedPowerPoint);
-}
-
-void AZenithCharacter::AddPhysiquePowerPoint(float Amount)
-{
-	PlayerAttribute.PhysiquePowerPoint += Amount;
-	PlayerAttribute.Health += Amount;
-	PlayerAttribute.HealthMax += Amount;
-	if(PlayerUIHandle)
-		PlayerUIHandle->UpdateHealth();
-}
-
-void AZenithCharacter::AddManaPowerPoint(float Amount)
-{
-	PlayerAttribute.MagicPowerPoint += Amount;
-	if(AttackComponent)
-		AttackComponent->IncreaseManaPower(PlayerAttribute.MagicPowerPoint);
 }

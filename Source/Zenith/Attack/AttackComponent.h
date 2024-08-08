@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AttackHandle.h"
 #include "Components/ActorComponent.h"
 #include "AttackProperty.h"
 #include "Zenith/Attack/AttackComposite/AttackModifier.h"
@@ -12,7 +11,7 @@
 
 
 UCLASS(Blueprintable, ClassGroup=(Attack), meta=(BlueprintSpawnableComponent))
-class ZENITH_API UAttackComponent : public UActorComponent, public IAttackHandle
+class ZENITH_API UAttackComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -88,22 +87,6 @@ public:
 	//Initialize Cluster
 	virtual void InitializeCluster();
 	
-	/*------------------------------------Attack Modification Handle--------------------------*/
-	//Attack Handle
-	virtual void IncreaseDamage(float FlatDamage) override;
-	//increase damage percentage
-	// base damage * (1 + Percentage/100)
-	virtual void IncreaseDamagePercentage(float Percentage) override;
-	//increase attack speed
-	virtual void IncreaseAttackSpeed(float Percentage) override;
-	//Add Number of Projectiles per attack
-	virtual void IncreaseNumberOfProjectiles(int32 NumberOfProjectiles) override;
-	//Increase Damage Area
-	virtual void IncreaseDamageArea(float DamageArea) override;
-	//Increase Movement Speed
-	virtual void IncreaseMovementSpeed(float MovementSpeed) override;
-	//IncreaseClusterSize
-	virtual void IncreaseClusterSize(int32 ClusterSize) override;
 
 	/*------------------------------------Attack Modifiers------------------------------------*/
 	//Attack Modifiers
@@ -113,37 +96,7 @@ public:
 
 	virtual void ApplyModifer();
 	virtual void ReinitializeAttackProperty();
-
-	/*------------------------------------Plant Enhancement Property--------------------------------------*/
-public:
-	void IncreaseMagicPower(float MagicPowerPoint);
-	void IncreaseSpeedPower(float SpeedPowerPoint);
-	void IncreaseManaPower(float ManaPowerPoint);
-
-	//Level up Effect
-	UFUNCTION(BlueprintImplementableEvent, Category = "Attack")
-	void MagicPowerLevelUpEffect();
-private:
-	//Update Visual Factor
-	void UpdateMagicPowerVisual(float NormalisedAmount);
-	void UpdateSpeedPowerVisual(float NormalisedAmount);
-	void UpdateManaPowerVisual(float NormalisedAmount);
 	
-	//Update Numeric Factor (such as Damage and Speed)
-	void UpdateMagicPowerNumeric(float MagicPowerPoint, float NormalisedAmount);
-	void UpdateSpeedPowerNumeric(float SpeedPowerPoint);
-	void UpdateManaPowerNumeric(float NormalisedAmount);
-
-	/**
-	 * Increase the Cluster Size
-	 * @param NewTotalProjectiles - number of projectiles 
-	 */
-	void IncreaseClusterSize(float NumberOfProjectiles);
-	/**
-	 * Total Magic Power / number of projectiles
-	 * Only Calculate but not updating
-	 */
-	void RecalculateDamage(float MagicPowerPoint);
 };
 
 

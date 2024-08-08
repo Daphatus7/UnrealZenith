@@ -237,18 +237,6 @@ protected:
 	void AddMapDrop(E_ResourceType Type, int32 Amount);
 #pragma endregion
 	/*----------------------------------Plant Triggered Events--------------------------------*/
-private:
-	//Player Magic Power
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Plant", meta = (AllowPrivateAccess = "true"))
-	float PlayerMagicPower = 0.0f;
-	
-	//Player Impetus Power
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Plant", meta = (AllowPrivateAccess = "true"))
-	float PlayerImpetusPower = 0.0f;
-	
-	//Player Health Power
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Plant", meta = (AllowPrivateAccess = "true"))
-	float PlayerHealthPower = 0.0f;
 #pragma region Plant Events
 	
 public:

@@ -23,13 +23,6 @@ class ZENITH_API IPlayerAttributeHandle
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	//Restore Health
-	virtual void IncreaseHealth(float HealthAmount) = 0;
-	//Increase Damage
-	virtual void IncreaseDamage(float DamageAmount) = 0;
-	//Increase Speed
-	virtual void IncreaseSpeed(float SpeedAmount) = 0;
-
 	virtual void AddAttackModifier(FAttackModifier * Modifier) = 0;
 	virtual void RemoveAttackModifier(FAttackModifier * Modifier) = 0;
 };
