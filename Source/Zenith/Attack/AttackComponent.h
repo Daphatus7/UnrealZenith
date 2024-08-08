@@ -11,7 +11,7 @@ UCLASS(Blueprintable, ClassGroup=(Attack), meta=(BlueprintSpawnableComponent))
 class ZENITH_API UAttackComponent : public UActorComponent
 {
 	GENERATED_BODY()
-	
+
 };
 
 

@@ -58,10 +58,6 @@ protected:
 	
 public:
 	/*-----------------Character Attributes-----------------*/
-	//Take Damage
-	UFUNCTION(BlueprintCallable, Category = "Attack")
-	virtual bool Attack(FVector CursorLocation);
-
 	/**
 	 * Blueprint only event, finished initializing attack, attack automatically	
 	 */

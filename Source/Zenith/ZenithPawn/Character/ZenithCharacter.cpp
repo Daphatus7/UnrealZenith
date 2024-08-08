@@ -79,11 +79,6 @@ void AZenithCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-bool AZenithCharacter::Attack(FVector CursorLocation)
-{
-	return false;
-}
-
 void AZenithCharacter::IncreaseHealth(float HealthAmount)
 {
 	PlayerAttribute.Health += HealthAmount;

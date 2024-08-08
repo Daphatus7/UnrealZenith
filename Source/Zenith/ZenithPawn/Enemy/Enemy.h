@@ -43,6 +43,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Damage")
 	virtual void OnTakingDamage(const float DamageAmount, AActor* DamageCauser) override;
 
 	//Apply Damage
