@@ -23,6 +23,6 @@ class ZENITH_API IPlayerAttributeHandle
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void AddAttackModifier(FAttackModifier * Modifier) = 0;
-	virtual void RemoveAttackModifier(FAttackModifier * Modifier) = 0;
+	virtual void AddAttackModifier(FModifier * Modifier) = 0;
+	virtual void RemoveAttackModifier(FModifier * Modifier) = 0;
 };

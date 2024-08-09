@@ -24,8 +24,8 @@ public:
 	//-----------------------------------Compulsory Initializers--------------------------------------
 	//1. Initialize the cluster
 
-	virtual void UpdateMotion(float DeltaTime) override;
-
+	void UpdateMotion_Implementation(float DeltaTime) override;
+	
 	// Already called in RegisterAttack. This further modifies the behaviour of the attack when initialized
 	virtual void InitializeAttack_Implementation(AActor* Attack) override
 	{

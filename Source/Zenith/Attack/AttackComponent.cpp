@@ -2,6 +2,8 @@
 
 
 #include "AttackComponent.h"
+
+#include "AttackMath/AttackMath.h"
 #include "Zenith/Attack/AttackProperty.h"
 #include "Zenith/Library/ZenithFunctionLibrary.h"
 #include "Zenith/ZenithPawn/Character/ZenithCharacter.h"
@@ -31,8 +33,8 @@ bool UAttackComponent::Attack(const FVector& Direction)
 
 	//the number of instances can spawn
 	const int32 TotalAttacks = RemainingAttacks + InactiveAttacks;
-	int32 NumberOfInstance = TotalAttacks < AttackProperty.NumberOfProjectiles ?
-								TotalAttacks : AttackProperty.NumberOfProjectiles;
+	int32 NumberOfInstance = TotalAttacks < AttackProperty.AttackData.NumberOfProjectiles ?
+								TotalAttacks : AttackProperty.AttackData.NumberOfProjectiles;
 	UE_LOG(LogTemp, Warning, TEXT("Total Attacks: %d Inactive Attacks: %d Remaining Attacks: %d"), TotalAttacks, InactiveAttacks, RemainingAttacks);
 	
 	FActorSpawnParameters SpawnParams;
@@ -66,10 +68,7 @@ bool UAttackComponent::Attack(const FVector& Direction)
 		}
 		NewAttack->InitializeParent(reinterpret_cast<IAttackClusterHandle*>(AttackCluster));
 		AttackCluster->RegisterAttack(NewAttack);
-		NewAttack->InitializeProperty(AttackProperty.Damage,
-								AttackProperty.bPiercing,
-								AttackProperty.DamageArea,
-								AttackProperty.FX);
+		NewAttack->InitializeProperty(AttackProperty.AttackData);
 	}
 	return true;
 }
@@ -154,7 +153,9 @@ void UAttackComponent::LoadAttackLevelData()
 
 void UAttackComponent::UpdateCluster()
 {
-	AttackCluster->UpdateCluster(AttackProperty.MovementSpeed, AttackProperty.OffCenterDistance, AttackProperty.ClusterSize);
+	AttackCluster->UpdateCluster(AttackProperty.AttackData.MovementSpeed,
+		AttackProperty.AttackData.OffCenterDistance,
+		AttackProperty.AttackData.ClusterSize);
 }
 
 void UAttackComponent::InitializeCluster()
@@ -167,19 +168,19 @@ void UAttackComponent::InitializeCluster()
 						GetOwner()->GetActorLocation(),
 						GetOwner()->GetActorRotation(), SpawnParams);
 	AttackCluster->InitializeCluster(
-	AttackProperty.MovementSpeed,
-	AttackProperty.OffCenterDistance,
-	AttackProperty.ClusterSize);
+	AttackProperty.AttackData.MovementSpeed,
+	AttackProperty.AttackData.OffCenterDistance,
+	AttackProperty.AttackData.ClusterSize);
 }
 
-void UAttackComponent::AddAttackModifier(FAttackModifier * Modifier)
+void UAttackComponent::AddAttackModifier(FModifier * Modifier)
 {
 	AttackModifiers.Add(Modifier);
 	//recalculate the attack property
 	ApplyModifer();
 }
 
-void UAttackComponent::RemoveAttackModifier(FAttackModifier * Modifier)
+void UAttackComponent::RemoveAttackModifier(FModifier * Modifier)
 {
 	if(AttackModifiers.Contains(Modifier))
 	{
@@ -189,10 +190,15 @@ void UAttackComponent::RemoveAttackModifier(FAttackModifier * Modifier)
 
 void UAttackComponent::ApplyModifer()
 {
+	AttackProperty.AttackData = FAttackMath::GetNewAttackData(AttackPropertyDefault.AttackData, AttackModifiers);
+	ReinitializeAttackProperty();
 }
 
 void UAttackComponent::ReinitializeAttackProperty()
 {
-
+	AttackCluster->UpdateCluster(AttackProperty.AttackData.MovementSpeed,
+		AttackProperty.AttackData.OffCenterDistance,
+		AttackProperty.AttackData.ClusterSize);
+	AttackCluster->ReinitializeAttack(AttackProperty.AttackData);
 }
 

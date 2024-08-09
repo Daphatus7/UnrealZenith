@@ -31,7 +31,7 @@ class ZENITH_API UAttackComponent : public UActorComponent
 	
 	/*---------------------------------Attack Modification--------------------------------------*/
 	//Attack Modifiers
-	TArray<FAttackModifier *> AttackModifiers;
+	TArray<FModifier *> AttackModifiers;
 	//Damage
 public:
 	//Constructor
@@ -71,7 +71,6 @@ protected:
 #pragma region Attack Speed Table
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
 	UCurveTable * AttackSpeedTable;
-
 	//Curve table data
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack")
 	TArray<float> AttackSpeedData; 
@@ -90,13 +89,13 @@ public:
 
 	/*------------------------------------Attack Modifiers------------------------------------*/
 	//Attack Modifiers
-	virtual void AddAttackModifier(FAttackModifier * Modifier);
+	virtual void AddAttackModifier(FModifier * Modifier);
 	//Remove Attack Modifier
-	virtual void RemoveAttackModifier(FAttackModifier * Modifier);
+	virtual void RemoveAttackModifier(FModifier * Modifier);
 
+	//Apply Changes to the attack property
 	virtual void ApplyModifer();
 	virtual void ReinitializeAttackProperty();
-	
 };
 
 

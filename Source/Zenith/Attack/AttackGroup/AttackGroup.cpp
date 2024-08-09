@@ -40,16 +40,13 @@ void AAttackGroup::InitializeCluster(const float InitMovementSpeed,
 	ClusterSize = InitClusterSize;
 }
 
-void AAttackGroup::InitializeAttack_Implementation(AActor* Attack)
+void AAttackGroup::UpdateMotion_Implementation(float DeltaTime)
 {
+	
 }
 
-void AAttackGroup::ReinitializeAttack(const float InitDamage, const bool bPierce, const float InitDamageArea)
+void AAttackGroup::InitializeAttack_Implementation(AActor* Attack)
 {
-	for(AAttack * Attack : Attacks)
-	{
-		Attack->UpdateAttack(InitDamage, bPierce, InitDamageArea);
-	}
 }
 
 void AAttackGroup::DebugClusterMessage()

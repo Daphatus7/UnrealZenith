@@ -4,6 +4,7 @@
 #include "Attack.h"
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Zenith/Attack/AttackData.h"
 #include "Zenith/ZenithPawn/Enemy/Enemy.h"
 
 #include "Zenith/ZenithPawn/Pawn/ZenithPawn.h"
@@ -23,22 +24,13 @@ AAttack::AAttack()
 	CollisionMesh->SetupAttachment(RootComponent); // Attach Mesh to SceneComponent
 }
 
-void AAttack::InitializeProperty(const float InitDamage, const bool bPierce, const float InitDamageArea,
-                                     TSoftObjectPtr<UNiagaraSystem> NewFX)
+void AAttack::InitializeProperty(FAttackData AttackData)
 {
-	Damage = InitDamage;
-	bPiercing = bPierce;
-	DamageArea = InitDamageArea;
+	Damage = AttackData.Damage;
+	DamageArea = AttackData.DamageArea;
 
-	CollisionMesh->SetRelativeScale3D(FVector(InitDamageArea));
+	CollisionMesh->SetRelativeScale3D(FVector(AttackData.DamageArea));
 	CollisionMesh->SetVisibility(false);
-	FX = nullptr;
-	//Attach FX to Mesh
-	if (NewFX)
-	{
-		// FX = UNiagaraFunctionLibrary::SpawnSystemAttached(NewFX.Get(), CollisionMesh, FName("None"), FVector(0.f),
-		// 	FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
-	}
 }
 
 void AAttack::UpdateAttack(const float InitDamage, const bool bPierce, const float InitDamageArea)
@@ -53,11 +45,11 @@ void AAttack::DebugAttackMessage() const
 {
 	if(GEngine)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, GetWorld()->DeltaTimeSeconds,
-			FColor::Purple, "Attack Number " + GetName() + " Damage = " +
-			FString::SanitizeFloat(Damage) + " Piercing = " +
-			FString::FromInt(bPiercing) + " Damage Area = " +
-			FString::SanitizeFloat(DamageArea));
+		// GEngine->AddOnScreenDebugMessage(-1, GetWorld()->DeltaTimeSeconds,
+		// 	FColor::Purple, "Attack Number " + GetName() + " Damage = " +
+		// 	FString::SanitizeFloat(Damage) + " Piercing = " +
+		// 	FString::FromInt(bPiercing) + " Damage Area = " +
+		// 	FString::SanitizeFloat(DamageArea));
 	}
 }
 

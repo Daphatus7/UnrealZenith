@@ -1,4 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -58,7 +57,9 @@ public:
 	virtual void InitializeCluster(const float InitMovementSpeed, const float InitOffCenterDistance, const
 								   int32 InitClusterSize);
 	//Update the movement each frame, has been added to the tick function
-	virtual void UpdateMotion(float DeltaTime){}
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Attack")
+	void UpdateMotion(float DeltaTime);
 
 	//-----------------------------------Cluster Getters ---------------------------------------------
 	int32 GetRemainingClusterSize() const
@@ -113,7 +114,7 @@ public:
 	//Move to initial Location
 	UFUNCTION(BlueprintNativeEvent, Category = "Attack")
 	void InitializeAttack(AActor* Attack);
-
+	
 	virtual void UpdateCluster(const float NewMovementSpeed, const float NewOffCenterDistance, const int32 NewClusterSize)
 	{
 		MovementSpeed = NewMovementSpeed;
@@ -121,6 +122,13 @@ public:
 		ClusterSize = NewClusterSize;
 	}
 
-	virtual void ReinitializeAttack(const float InitDamage, const bool bPierce, const float InitDamageArea);
+	virtual void ReinitializeAttack(FAttackData AttackData)
+	{
+		//Reinitialize the attack
+		for(AAttack * Attack : Attacks)
+		{
+			Attack->InitializeProperty(AttackData);
+		}
+	}
 	void DebugClusterMessage();
 };

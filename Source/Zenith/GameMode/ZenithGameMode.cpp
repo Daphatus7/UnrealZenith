@@ -247,8 +247,10 @@ void AZenithGameMode::AddBuffToPlayer(FAttackModifier Buff)
 {
 	if(AZenithCharacter * PlayerCharacter = Cast<AZenithCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn()))
 	{
-		FAttackModifier * Copy = new FAttackModifier(Buff);
-		PlayerCharacter->AddAttackModifier(Copy);
+		for(const FModifier Modifier : Buff.Modifiers)
+		{
+			PlayerCharacter->AddAttackModifier(new FModifier(Modifier));
+		}
 	}
 }
 

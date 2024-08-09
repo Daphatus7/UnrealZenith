@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Zenith/Attack/AttackGroup/AttackClusterHandle.h"
+#include "Zenith/Attack/AttackData.h"
 #include "Zenith/ZenithPawn/Pawn/ZenithPawn.h"
-#include "NiagaraComponent.h"
 #include "Attack.generated.h"
 
 /** A Motionless Object that applies damage to target
@@ -44,9 +44,7 @@ protected:
 	//Damage Radius
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Damage, meta = (AllowPrivateAccess = "true"))
 	float DamageArea = 1.f;
-	//FX
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Damage, meta = (AllowPrivateAccess = "true"))
-	UNiagaraComponent * FX;	
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -82,12 +80,7 @@ public:
 	}
 	
 	//Attack property
-	virtual void InitializeProperty(const float InitDamage, const bool bPierce, const float InitDamageArea, TSoftObjectPtr<UNiagaraSystem> NewFX);
+	virtual void InitializeProperty(FAttackData AttackData);
 	virtual void UpdateAttack(const float InitDamage, const bool bPierce, const float InitDamageArea);
 	void DebugAttackMessage() const;
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "Attack Visual")
-	void OnUpdateMagicPowerVisual(int Level, float Amount);
-	UFUNCTION(BlueprintImplementableEvent, Category = "Attack Visual")
-	void OnUpdateSpeedPowerVisual(int Level, float Amount);
 };

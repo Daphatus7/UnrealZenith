@@ -18,9 +18,8 @@ void ASpinningGroup::BeginPlay()
 }
 
 
-void ASpinningGroup::UpdateMotion(float DeltaTime)
+void ASpinningGroup::UpdateMotion_Implementation(float DeltaTime)
 {
-	
 	const float RotationSpeed = 10.f;
 	const float MovementInterpSpeed = 10.f;
 	const float AttackMovementSpeed = 1.f;

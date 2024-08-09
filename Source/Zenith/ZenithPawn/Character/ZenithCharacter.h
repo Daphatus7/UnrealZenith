@@ -22,11 +22,11 @@ UCLASS(config=Game)
 class AZenithCharacter : public AZenithPawn, public IPlayerAttributeHandle
 {
 public:
-	virtual void AddAttackModifier(FAttackModifier * Modifier) override
+	virtual void AddAttackModifier(FModifier * Modifier) override
 	{
 		AttackComponent->AddAttackModifier(Modifier);
 	}
-	virtual void RemoveAttackModifier(FAttackModifier * Modifier) override
+	virtual void RemoveAttackModifier(FModifier * Modifier) override
 	{
 		AttackComponent->RemoveAttackModifier(Modifier);
 	}
