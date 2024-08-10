@@ -1,61 +1,66 @@
 #include "AttackMath.h"
 
-float FAttackMath::ApplyFlatDamage(float Damage, float Amount)
+int32 FAttackMath::ApplyAttackLevel(const int32 AttackLevel, const int32 Amount)
+{
+    return AttackLevel + Amount;
+}
+
+float FAttackMath::ApplyFlatDamage(const float Damage, const float Amount)
 {
     return Damage + Amount;
 }
 
-float FAttackMath::ApplyDamageIncreasePercentage(float Damage, float Amount)
+float FAttackMath::ApplyDamageIncreasePercentage(const float Damage, const float Amount)
 {
     return Damage * Amount;
 }
 
-int32 FAttackMath::ApplyNumberOfProjectiles(int32 NumberOfProjectiles, float Amount)
+int32 FAttackMath::ApplyNumberOfProjectiles(const int32 NumberOfProjectiles, const int32 Amount)
 {
     return NumberOfProjectiles + Amount;
 }
 
-float FAttackMath::ApplyDamageArea(float DamageArea, float Amount)
+float FAttackMath::ApplyDamageArea(const float DamageArea, const float Amount)
 {
     return DamageArea + Amount;
 }
 
-float FAttackMath::ApplyMovementSpeed(float MovementSpeed, float Amount)
+float FAttackMath::ApplyMovementSpeed(const float MovementSpeed, const float Amount)
 {
     return MovementSpeed + Amount;
 }
 
-int32 FAttackMath::ApplyNumberOfClusters(int32 NumberOfClusters, float Amount)
+int32 FAttackMath::ApplyNumberOfClusters(const int32 NumberOfClusters, const int32 Amount)
 {
     return NumberOfClusters + Amount;
 }
 
-float FAttackMath::ApplyAttackSpeed(float AttackSpeed, float Amount)
+float FAttackMath::ApplyAttackSpeed(const float AttackSpeed, const float Amount)
 {
     return AttackSpeed + Amount;
 }
 
-int32 FAttackMath::ApplyPierceCount(int32 PierceCount, float Amount)
+int32 FAttackMath::ApplyPierceCount(const int32 PierceCount, const int32 Amount)
 {
     return PierceCount + Amount;
 }
 
-float FAttackMath::ApplyOffCenterDistance(float OffCenterDistance, float Amount)
+float FAttackMath::ApplyOffCenterDistance(const float OffCenterDistance, const float Amount)
 {
     return OffCenterDistance + Amount;
 }
 
-int32 FAttackMath::ApplyClusterSize(int32 ClusterSize, float Amount)
+int32 FAttackMath::ApplyClusterSize(const int32 ClusterSize, const int32 Amount)
 {
     return ClusterSize + Amount;
 }
 
-float FAttackMath::ApplyEffectEnhanced(float EffectEnhanced, float Amount)
+float FAttackMath::ApplyEffectEnhanced(const float EffectEnhanced, const float Amount)
 {
     return EffectEnhanced + Amount;
 }
 
-float FAttackMath::ApplyCriticalStrikeChance(float CriticalStrikeChance, float Amount)
+float FAttackMath::ApplyCriticalStrikeChance(const float CriticalStrikeChance, const float Amount)
 {
     return CriticalStrikeChance + Amount;
 }
