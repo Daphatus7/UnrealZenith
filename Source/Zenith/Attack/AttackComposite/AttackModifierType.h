@@ -24,7 +24,7 @@
 
 //unreal enum
 UENUM(BlueprintType)
-enum class EAttackModifier : uint8
+enum class EAttackModifierType : uint8
 {
 	//Flat Damage
 	Flat_Damage UMETA(DisplayName = "Flat Damage"),

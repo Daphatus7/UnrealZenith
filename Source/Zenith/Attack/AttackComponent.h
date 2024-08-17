@@ -5,14 +5,19 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "AttackProperty.h"
+#include "AttackPropertyHandle.h"
 #include "Zenith/Attack/AttackComposite/AttackModifier.h"
+#include "Zenith/Attack/AttackAttribute/AttackAttribute.h"
 #include "Zenith/Attack/AttackGroup/AttackGroup.h"
 #include "AttackComponent.generated.h"
 
 
 UCLASS(Blueprintable, ClassGroup=(Attack), meta=(BlueprintSpawnableComponent))
-class ZENITH_API UAttackComponent : public UActorComponent
+class ZENITH_API UAttackComponent : public UActorComponent, public IAttackPropertyHandle
 {
+
+
+private:
 	GENERATED_BODY()
 
 	/*---------------------------------Attack Base Property-------------------------------------*/
@@ -96,6 +101,82 @@ public:
 	//Apply Changes to the attack property
 	virtual void ApplyModifer();
 	virtual void ReinitializeAttackProperty();
+
+
+
+public:
+	/*------------------------------Attack Component Handle------------------------------------*/
+private:
+	UPROPERTY()
+	TMap<EAttackModifierType, UAttackAttribute *> AttackAttributes;
+public:
+	/**
+	 * Add new Attack Attribute
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Attack")
+	void AddAttackAttribute(UAttackAttribute * AttackAttribute);
+	/**
+	 * 
+	 * @param Amount Current Amount + New Amount
+	 */
+#pragma region Attack Property Handle
+	virtual void ApplyFlatDamage(float Amount) override;
+	/**
+	 * 
+	 * @param Amount Default Amount * (1 + Amount)
+	 */
+	virtual void ApplyDamageIncreasePercentage(float Amount) override;
+	/**
+	 * 
+	 * @param Amount 
+	 */
+	virtual void ApplyNumberOfProjectiles(const int32 Amount) override;
+	/**
+	 * 
+	 * @param Amount 
+	 */
+	virtual void ApplyDamageArea(const float Amount) override;
+	/**
+	 * 
+	 * @param Amount 
+	 */
+	virtual void ApplyMovementSpeed(const float Amount) override;
+	/**
+	 * 
+	 * @param Amount 
+	 */
+	virtual void ApplyNumberOfClusters(const int32 Amount) override;
+	/**
+	 * 
+	 * @param Amount 
+	 */
+	virtual void ApplyAttackSpeed(const float Amount) override;
+	/**
+	 * 
+	 * @param Amount 
+	 */
+	virtual void ApplyPierceCount(const int32 Amount) override;
+	/**
+	 * 
+	 * @param Amount 
+	 */
+	virtual void ApplyOffCenterDistance(const float Amount) override;
+	/**
+	 * 
+	 * @param Amount 
+	 */
+	virtual void ApplyClusterSize(const int32 Amount) override;
+	/**
+	 * 
+	 * @param Amount 
+	 */
+	virtual void ApplyEffectEnhanced(const float Amount) override;
+	/**
+	 * 
+	 * @param Amount 
+	 */
+	virtual void ApplyCriticalStrikeChance(const float Amount) override;
+#pragma endregion 
 };
 
 

@@ -21,15 +21,6 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 UCLASS(config=Game)
 class AZenithCharacter : public AZenithPawn, public IPlayerAttributeHandle
 {
-public:
-	virtual void AddAttackModifier(FModifier * Modifier) override
-	{
-		AttackComponent->AddAttackModifier(Modifier);
-	}
-	virtual void RemoveAttackModifier(FModifier * Modifier) override
-	{
-		AttackComponent->RemoveAttackModifier(Modifier);
-	}
 
 private:
 	GENERATED_BODY()
@@ -112,7 +103,16 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Plant")
 	float GetManaPowerPoint() const { return PlayerAttribute.ManaPowerPoint; }
 #pragma endregion
-	
+public:
+	virtual void AddAttackModifier(FModifier * Modifier) override
+	{
+		AttackComponent->AddAttackModifier(Modifier);
+	}
+	virtual void RemoveAttackModifier(FModifier * Modifier) override
+	{
+		AttackComponent->RemoveAttackModifier(Modifier);
+	}
+
 };
 
 

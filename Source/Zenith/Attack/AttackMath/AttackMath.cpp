@@ -72,51 +72,51 @@ FAttackData FAttackMath::GetNewAttackData(const FAttackData& AttackData, TArray<
     {
         switch (Modifier->ModifierName)
         {
-        case EAttackModifier::Flat_Damage:
+        case EAttackModifierType::Flat_Damage:
             NewAttackData.Damage = ApplyFlatDamage(AttackData.Damage, Modifier->Amount);
             break;
 
-        case EAttackModifier::Damage_Increase_Percentage:
+        case EAttackModifierType::Damage_Increase_Percentage:
             NewAttackData.Damage = ApplyDamageIncreasePercentage(NewAttackData.Damage, Modifier->Amount);
             break;
 
-        case EAttackModifier::Number_Of_Projectiles:
+        case EAttackModifierType::Number_Of_Projectiles:
             NewAttackData.NumberOfProjectiles = ApplyNumberOfProjectiles(NewAttackData.NumberOfProjectiles, Modifier->Amount);
             break;
 
-        case EAttackModifier::Damage_Area:
+        case EAttackModifierType::Damage_Area:
             NewAttackData.DamageArea = ApplyDamageArea(NewAttackData.DamageArea, Modifier->Amount);
             break;
 
-        case EAttackModifier::Movement_Speed:
+        case EAttackModifierType::Movement_Speed:
             NewAttackData.MovementSpeed = ApplyMovementSpeed(NewAttackData.MovementSpeed, Modifier->Amount);
             break;
 
-        case EAttackModifier::Number_Of_Clusters:
+        case EAttackModifierType::Number_Of_Clusters:
             NewAttackData.NumberOfCluster = ApplyNumberOfClusters(NewAttackData.NumberOfCluster, Modifier->Amount);
             break;
 
-        case EAttackModifier::Attack_Speed:
+        case EAttackModifierType::Attack_Speed:
             NewAttackData.AttackSpeed = ApplyAttackSpeed(NewAttackData.AttackSpeed, Modifier->Amount);
             break;
 
-        case EAttackModifier::Pierce_Count:
+        case EAttackModifierType::Pierce_Count:
             NewAttackData.PierceCount = ApplyPierceCount(NewAttackData.PierceCount, Modifier->Amount);
             break;
 
-        case EAttackModifier::Off_Center_Distance:
+        case EAttackModifierType::Off_Center_Distance:
             NewAttackData.OffCenterDistance = ApplyOffCenterDistance(NewAttackData.OffCenterDistance, Modifier->Amount);
             break;
 
-        case EAttackModifier::Cluster_Size:
+        case EAttackModifierType::Cluster_Size:
             NewAttackData.ClusterSize = ApplyClusterSize(NewAttackData.ClusterSize, Modifier->Amount);
             break;
 
-        case EAttackModifier::Effect_Enhanced:
+        case EAttackModifierType::Effect_Enhanced:
             NewAttackData.EffectEnhanced = ApplyEffectEnhanced(NewAttackData.EffectEnhanced, Modifier->Amount);
             break;
 
-        case EAttackModifier::Critical_Strike_Chance:
+        case EAttackModifierType::Critical_Strike_Chance:
             NewAttackData.CriticalStrikeChance = ApplyCriticalStrikeChance(NewAttackData.CriticalStrikeChance, Modifier->Amount);
             break;
 

@@ -3,6 +3,7 @@
 
 #include "AttackComponent.h"
 
+#include "AttackAttribute/AttackAttribute.h"
 #include "AttackMath/AttackMath.h"
 #include "Zenith/Attack/AttackProperty.h"
 #include "Zenith/Library/ZenithFunctionLibrary.h"
@@ -66,7 +67,7 @@ bool UAttackComponent::Attack(const FVector& Direction)
 			}
 					
 		}
-		NewAttack->InitializeParent(reinterpret_cast<IAttackClusterHandle*>(AttackCluster));
+		NewAttack->InitializeParent(AttackCluster);
 		AttackCluster->RegisterAttack(NewAttack);
 		NewAttack->InitializeProperty(AttackProperty.AttackData);
 	}
@@ -190,7 +191,8 @@ void UAttackComponent::RemoveAttackModifier(FModifier * Modifier)
 
 void UAttackComponent::ApplyModifer()
 {
-	AttackProperty.AttackData = FAttackMath::GetNewAttackData(AttackPropertyDefault.AttackData, AttackModifiers);
+	//AttackProperty.AttackData = UAttackComponent::GetNewAttackData(AttackPropertyDefault.AttackData, AttackModifiers);
+	UE_LOG(LogTemp, Warning, TEXT("Apply Attack Modifer not implemented"), AttackProperty.AttackData.Damage);
 	ReinitializeAttackProperty();
 }
 
@@ -201,4 +203,89 @@ void UAttackComponent::ReinitializeAttackProperty()
 		AttackProperty.AttackData.ClusterSize);
 	AttackCluster->ReinitializeAttack(AttackProperty.AttackData);
 }
+
+void UAttackComponent::AddAttackAttribute(UAttackAttribute * AttackAttribute)
+{
+	/**
+	 * if the attack attribute is not in the map, add it
+	 */
+	if(AttackAttribute == nullptr) return;
+	if(AttackAttributes.Contains(AttackAttribute->GetAttackModifierType()))
+	{
+		AttackAttributes.FindRef(AttackAttribute->GetAttackModifierType())->LevelUp();
+		// Assign Property
+	}
+	/**
+	 * else level up the attack attribute
+	 */
+	else
+	{
+		AttackAttributes.Add(AttackAttribute->GetAttackModifierType(), AttackAttribute);
+		AttackAttribute->AssignAttackDataHandle(this);
+	}
+}
+
+void UAttackComponent::ApplyFlatDamage(float Amount)
+{
+	AttackProperty.AttackData.Damage = AttackPropertyDefault.AttackData.Damage + Amount;
+}
+
+void UAttackComponent::ApplyDamageIncreasePercentage(float Amount)
+{
+	AttackProperty.AttackData.Damage = AttackPropertyDefault.AttackData.Damage * (1 + Amount);
+}
+
+void UAttackComponent::ApplyNumberOfProjectiles(const int32 Amount)
+{
+	AttackProperty.AttackData.NumberOfProjectiles = AttackPropertyDefault.AttackData.NumberOfProjectiles + Amount;
+}
+
+void UAttackComponent::ApplyDamageArea(const float Amount)
+{
+	AttackProperty.AttackData.DamageArea = AttackPropertyDefault.AttackData.DamageArea * (1 + Amount);
+}
+
+void UAttackComponent::ApplyMovementSpeed(const float Amount)
+{
+	AttackProperty.AttackData.MovementSpeed = AttackPropertyDefault.AttackData.MovementSpeed * (Amount);
+	ReinitializeAttackProperty();
+
+}
+
+void UAttackComponent::ApplyNumberOfClusters(const int32 Amount)
+{
+	AttackProperty.AttackData.NumberOfCluster = AttackPropertyDefault.AttackData.NumberOfCluster + Amount;
+}
+
+void UAttackComponent::ApplyAttackSpeed(const float Amount)
+{
+	AttackProperty.AttackData.AttackSpeed = AttackPropertyDefault.AttackData.AttackSpeed * (Amount);
+	ReinitializeAttackProperty();
+}
+
+void UAttackComponent::ApplyPierceCount(const int32 Amount)
+{
+	AttackProperty.AttackData.PierceCount = AttackPropertyDefault.AttackData.PierceCount + Amount;
+}
+
+void UAttackComponent::ApplyOffCenterDistance(const float Amount)
+{
+	AttackProperty.AttackData.OffCenterDistance = AttackPropertyDefault.AttackData.OffCenterDistance + Amount;
+}
+
+void UAttackComponent::ApplyClusterSize(const int32 Amount)
+{
+	AttackProperty.AttackData.ClusterSize = AttackPropertyDefault.AttackData.ClusterSize + Amount;
+}
+
+void UAttackComponent::ApplyEffectEnhanced(const float Amount)
+{
+	AttackProperty.AttackData.EffectEnhanced = AttackPropertyDefault.AttackData.EffectEnhanced * ( 1 + Amount);
+}
+
+void UAttackComponent::ApplyCriticalStrikeChance(const float Amount)
+{
+	AttackProperty.AttackData.CriticalStrikeChance = AttackPropertyDefault.AttackData.CriticalStrikeChance + Amount;
+}
+
 

@@ -44,18 +44,15 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Zenith Function Library", meta = (Keywords = "ZenithFunctionLibrary"))
 	static FVector2D ProjectVectorToXYPlane(const FVector& Vector);
 	//EnumToString
-	UFUNCTION(BlueprintPure, Category = "Zenith Function Library", meta = (Keywords = "ZenithFunctionLibrary"))
-	static FString EnumToString(const EAttackModifier EnumValue)
-	{
-		const UEnum* EnumPtr = StaticEnum<EAttackModifier>();
-		if (!EnumPtr)
-		{
-			return FString("Invalid");
-		}
 
-		return EnumPtr->GetNameStringByValue((int64)EnumValue);
-	}
-
+	/**
+	 * 
+	 * @param CurveTable 
+	 * @param RowName 
+	 * @param Data 
+	 * @param NumberOfPoints 
+	 * @return 
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Zenith Function Library", meta = (Keywords = "ZenithFunctionLibrary"))
 	static bool LoadCurveTableData(UCurveTable* CurveTable, FName RowName, TArray<float>& Data, int32 NumberOfPoints);
 

@@ -23,3 +23,4 @@ private:
 public:
 	static FAttackData GetNewAttackData(const FAttackData& AttackData, TArray<FModifier*> AttackModifiers);
 };
+

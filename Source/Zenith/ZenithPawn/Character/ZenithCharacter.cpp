@@ -44,9 +44,6 @@ AZenithCharacter::AZenithCharacter()
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 #pragma endregion
 
-#pragma region player health
-	//health
-#pragma endregion
 }
 
 void AZenithCharacter::Mouse(const FInputActionValue& Value)

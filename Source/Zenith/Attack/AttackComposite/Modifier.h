@@ -11,7 +11,7 @@ struct ZENITH_API FModifier
 	GENERATED_BODY()
 	//Modifier Type
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Modifier")
-	EAttackModifier ModifierName = EAttackModifier::None;
+	EAttackModifierType ModifierName = EAttackModifierType::None;
 
 	//Amount
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Modifier")

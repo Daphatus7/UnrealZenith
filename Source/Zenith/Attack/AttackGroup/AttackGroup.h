@@ -9,8 +9,10 @@
 class AAttack;
 
 UCLASS()
-class ZENITH_API AAttackGroup : public AActor
+class ZENITH_API AAttackGroup : public AActor , public IAttackClusterHandle
 {
+
+private:
 	GENERATED_BODY()
 	//Scene Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
@@ -105,10 +107,8 @@ public:
 		}
 	}
 	// //Activate
-	
-	// virtual void Activate();
-	// //Deactivate
-	// virtual void Deactivate();
+	/*********Interface Handle Implementation **************/
+	virtual void ReinitializeAttackGroup() override {};
 
 	//-----------------------------------Attack Control ---------------------------------------------
 	//Move to initial Location

@@ -4,7 +4,7 @@
 #include "NiagaraSystem.h"
 #include "AttackData.generated.h"
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Blueprintable)
 struct FAttackData
 {
 	GENERATED_BODY()
