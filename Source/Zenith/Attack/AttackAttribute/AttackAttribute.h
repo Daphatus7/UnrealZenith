@@ -95,7 +95,6 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Attack Attribute")
 	bool LevelUp();
-
 	/**
 	 * Assign the cluster to the attack attribute to modify the behavior of the attack
 	 * Also this has some reference to manipulate the Attack Group and Behaviour of attacks
