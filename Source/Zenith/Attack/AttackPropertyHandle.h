@@ -22,16 +22,16 @@ class ZENITH_API IAttackPropertyHandle
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void ApplyFlatDamage(float Amount);
-	virtual void ApplyDamageIncreasePercentage(float Amount);
-	virtual void ApplyNumberOfProjectiles(const int32 Amount);
-	virtual void ApplyDamageArea(const float Amount);
-	virtual void ApplyMovementSpeed(const float Amount);
-	virtual void ApplyNumberOfClusters(const int32 Amount);
-	virtual void ApplyAttackSpeed(const float Amount);
-	virtual void ApplyPierceCount(const int32 Amount);
-	virtual void ApplyOffCenterDistance(const float Amount);
-	virtual void ApplyClusterSize(const int32 Amount);
-	virtual void ApplyEffectEnhanced(const float Amount);
-	virtual void ApplyCriticalStrikeChance(const float Amount);
+	virtual void ApplyFlatDamage(float Amount) = 0;
+	virtual void ApplyDamageIncreasePercentage(float Amount)= 0;
+	virtual void ApplyNumberOfProjectiles(const int32 Amount)= 0;
+	virtual void ApplyDamageArea(const float Amount)= 0;
+	virtual void ApplyMovementSpeed(const float Amount)= 0;
+	virtual void ApplyNumberOfClusters(const int32 Amount)= 0;
+	virtual void ApplyAttackSpeed(const float Amount)= 0;
+	virtual void ApplyPierceCount(const int32 Amount)= 0;
+	virtual void ApplyOffCenterDistance(const float Amount)= 0;
+	virtual void ApplyClusterSize(const int32 Amount)= 0;
+	virtual void ApplyEffectEnhanced(const float Amount)= 0;
+	virtual void ApplyCriticalStrikeChance(const float Amount)= 0;
 };

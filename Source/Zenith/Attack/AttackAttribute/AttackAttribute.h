@@ -21,6 +21,7 @@ class ZENITH_API UAttackAttribute : public UObject
 	/**
 	 * Current Attribute Level
 	 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attack Attribute", meta = (AllowPrivateAccess = "true"))
 	int32 Level = 1;
 
 	/**

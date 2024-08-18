@@ -248,6 +248,7 @@ void UAttackComponent::ApplyDamageArea(const float Amount)
 void UAttackComponent::ApplyMovementSpeed(const float Amount)
 {
 	AttackProperty.AttackData.MovementSpeed = AttackPropertyDefault.AttackData.MovementSpeed * (Amount);
+	UE_LOG(LogTemp, Warning, TEXT("Movement Speed: %f"), AttackProperty.AttackData.MovementSpeed);
 	ReinitializeAttackProperty();
 
 }

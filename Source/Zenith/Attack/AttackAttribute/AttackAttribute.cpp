@@ -69,13 +69,13 @@ void UAttackAttribute::LevelUpDataModify()
 
 bool UAttackAttribute::LevelUp()
 {
+	Level++;
 	if(Level >= TotalLevels)
 	{
 		Level = TotalLevels;
 		return false;
 	} else
 	{
-		Level++;
 		LevelUpDataModify();
 		LevelUpVisualEffect();
 		return true;
@@ -84,9 +84,5 @@ bool UAttackAttribute::LevelUp()
 
 float UAttackAttribute::GetValue()
 {
-	if(Level > TotalLevels)
-	{
-		Level = TotalLevels;
-	}
 	return AttackLevelData[Level];
 }
