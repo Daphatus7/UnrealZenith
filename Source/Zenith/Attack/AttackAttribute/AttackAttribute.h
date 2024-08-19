@@ -62,7 +62,7 @@ private:
 	/**
 	 * Interface to the attack group
 	 */
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AttackGroup", meta = (AllowPrivateAccess = "true"))
 	AAttackGroup * AttackCluster = nullptr;
 
 	/**
@@ -114,5 +114,6 @@ public:
 		//Apply modification to the attack data
 		LoadAttackLevelData();
 		LevelUpDataModify();
+		LevelUpVisualEffect();
 	}
 };

@@ -222,40 +222,48 @@ void UAttackComponent::AddAttackAttribute(UAttackAttribute * AttackAttribute)
 	{
 		AttackAttributes.Add(AttackAttribute->GetAttackModifierType(), AttackAttribute);
 		AttackAttribute->AssignAttackDataHandle(this);
+		AttackAttribute->AssignCluster(AttackCluster);
 	}
 }
 
 void UAttackComponent::ApplyFlatDamage(float Amount)
 {
 	AttackProperty.AttackData.Damage = AttackPropertyDefault.AttackData.Damage + Amount;
+	ReinitializeAttackProperty();
+
 }
 
 void UAttackComponent::ApplyDamageIncreasePercentage(float Amount)
 {
 	AttackProperty.AttackData.Damage = AttackPropertyDefault.AttackData.Damage * (1 + Amount);
+	ReinitializeAttackProperty();
+
 }
 
 void UAttackComponent::ApplyNumberOfProjectiles(const int32 Amount)
 {
 	AttackProperty.AttackData.NumberOfProjectiles = AttackPropertyDefault.AttackData.NumberOfProjectiles + Amount;
+	UE_LOG(LogTemp, Warning, TEXT("Number of Projectiles: %d"), AttackProperty.AttackData.NumberOfProjectiles);
+	ReinitializeAttackProperty();
+
 }
 
 void UAttackComponent::ApplyDamageArea(const float Amount)
 {
 	AttackProperty.AttackData.DamageArea = AttackPropertyDefault.AttackData.DamageArea * (1 + Amount);
+	ReinitializeAttackProperty();
 }
 
 void UAttackComponent::ApplyMovementSpeed(const float Amount)
 {
 	AttackProperty.AttackData.MovementSpeed = AttackPropertyDefault.AttackData.MovementSpeed * (Amount);
-	UE_LOG(LogTemp, Warning, TEXT("Movement Speed: %f"), AttackProperty.AttackData.MovementSpeed);
 	ReinitializeAttackProperty();
-
 }
 
 void UAttackComponent::ApplyNumberOfClusters(const int32 Amount)
 {
 	AttackProperty.AttackData.NumberOfCluster = AttackPropertyDefault.AttackData.NumberOfCluster + Amount;
+	ReinitializeAttackProperty();
 }
 
 void UAttackComponent::ApplyAttackSpeed(const float Amount)
@@ -267,26 +275,31 @@ void UAttackComponent::ApplyAttackSpeed(const float Amount)
 void UAttackComponent::ApplyPierceCount(const int32 Amount)
 {
 	AttackProperty.AttackData.PierceCount = AttackPropertyDefault.AttackData.PierceCount + Amount;
+	ReinitializeAttackProperty();
 }
 
 void UAttackComponent::ApplyOffCenterDistance(const float Amount)
 {
 	AttackProperty.AttackData.OffCenterDistance = AttackPropertyDefault.AttackData.OffCenterDistance + Amount;
+	ReinitializeAttackProperty();
 }
 
 void UAttackComponent::ApplyClusterSize(const int32 Amount)
 {
 	AttackProperty.AttackData.ClusterSize = AttackPropertyDefault.AttackData.ClusterSize + Amount;
+	ReinitializeAttackProperty();
 }
 
 void UAttackComponent::ApplyEffectEnhanced(const float Amount)
 {
 	AttackProperty.AttackData.EffectEnhanced = AttackPropertyDefault.AttackData.EffectEnhanced * ( 1 + Amount);
+	ReinitializeAttackProperty();
 }
 
 void UAttackComponent::ApplyCriticalStrikeChance(const float Amount)
 {
 	AttackProperty.AttackData.CriticalStrikeChance = AttackPropertyDefault.AttackData.CriticalStrikeChance + Amount;
+	ReinitializeAttackProperty();
 }
 
 

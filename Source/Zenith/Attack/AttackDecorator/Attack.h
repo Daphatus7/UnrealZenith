@@ -3,17 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AttackHandle.h"
 #include "UObject/Object.h"
 #include "Zenith/Attack/AttackGroup/AttackClusterHandle.h"
 #include "Zenith/Attack/AttackData.h"
 #include "Zenith/ZenithPawn/Pawn/ZenithPawn.h"
+#include "AttackHandle.h"
 #include "Attack.generated.h"
 
 /** A Motionless Object that applies damage to target
  * 
  */
 UCLASS()
-class ZENITH_API AAttack : public AActor
+class ZENITH_API AAttack : public AActor, public IAttackHandle
 {
 	GENERATED_BODY()
 	
@@ -83,4 +85,6 @@ public:
 	virtual void InitializeProperty(FAttackData AttackData);
 	virtual void UpdateAttack(const float InitDamage, const bool bPierce, const float InitDamageArea);
 	void DebugAttackMessage() const;
+	
 };
+ 
