@@ -172,7 +172,6 @@ private:
 	 * @param Level 
 	 */
 	void HandleUpdateExperience(const float Percentage, const int32 Level) const;
-	void OnLevelUp() const;
 #pragma endregion
 	
 #pragma endregion
@@ -198,11 +197,15 @@ protected:
 
 	//Generate buffs to select
 	UFUNCTION(BlueprintCallable, Category = "Buff")
+	/**
+	 *
+	 *Pending remove
+	 */
 	TArray<FAttackModifier> GenerateBuffsToSelect(int32 BuffNumber) const;
-
 	//Check If Selected buff is valid
 	UFUNCTION(BlueprintCallable,BlueprintPure, Category = "Buff")
 	FAttackModifier CheckBuff(TArray<FAttackModifier> Buffs, FName Selected, bool & Success);
+	
 #pragma endregion
 
 #pragma region Player UI Management (Player Input)

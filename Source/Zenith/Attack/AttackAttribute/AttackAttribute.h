@@ -10,7 +10,6 @@
 #include "Zenith/Library/ZenithFunctionLibrary.h"
 #include "Zenith/Attack/AttackPropertyHandle.h"
 #include "AttackAttribute.generated.h"
-
 /**
  * 
  */

@@ -299,12 +299,6 @@ void AZenithGameMode::HandleUpdateExperience(const float Percentage, const int32
 {
 	OnExperienceChange.Broadcast(Percentage, Level);
 }
-
-void AZenithGameMode::OnLevelUp() const
-{
-	
-}
-
 void AZenithGameMode::UpdateHealth()
 {
 	OnUpdateUIHealth();

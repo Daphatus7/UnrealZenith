@@ -90,8 +90,6 @@ public:
 	virtual void UpdateCluster();
 	//Initialize Cluster
 	virtual void InitializeCluster();
-	
-
 	/*------------------------------------Attack Modifiers------------------------------------*/
 	//Attack Modifiers
 	virtual void AddAttackModifier(FModifier * Modifier);
