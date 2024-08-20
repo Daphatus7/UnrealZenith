@@ -33,13 +33,17 @@ class ZENITH_API AZenithGameMode : public AGameModeBase, public IPlayerUIHandle,
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAccess = "true"))
 	int32 PlayerLevel = 1;
 
+	//Player Level Maximum
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAccess = "true"))
+	int32 MaximumPlayerLevel = 100;
+	
 	//Player Attack Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAccess = "true"))
 	class UAttackComponent * PlayerAttackComponent;
 	
 	//Experience Table
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAccess = "true"))
-	TArray<int32> ExperienceTable;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Monster", meta = (AllowPrivateAccess = "true"))
+	TArray<float> PlayerExperienceData;
 
 	//Plant Power Table
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Plant", meta = (AllowPrivateAccess = "true"))
@@ -65,7 +69,7 @@ protected:
 
 	//Player Experience Table
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="My Category")
-	const UDataTable* PlayerExperienceTable;
+	UCurveTable* PlayerExperienceTable;
 
 	//Monster table
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="My Category")
@@ -84,7 +88,6 @@ private:
 #pragma endregion
 public:
 	//constructor
-	AZenithGameMode();
 	//Begin Play
 	virtual void BeginPlay() override;
 	//--------------------------------Game Time Events--------------------------------

@@ -12,11 +12,6 @@
 #include "Zenith/ZenithPawn/Enemy/Enemy.h"
 #include "Zenith/ZenithPawn/Enemy/MonsterAttribute.h"
 
-
-AZenithGameMode::AZenithGameMode()
-{
-}
-
 void AZenithGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -76,16 +71,11 @@ void AZenithGameMode::LoadExperienceTable()
 {
 	if(PlayerExperienceTable)
 	{
-		TArray<FPlayerLevel*> LocalLevels;
-		PlayerExperienceTable->GetAllRows<FPlayerLevel>("", LocalLevels);
-		for(const FPlayerLevel* PLevel : LocalLevels)
-		{
-			ExperienceTable.Add(PLevel->Experience);
-		}
+		UZenithFunctionLibrary::LoadCurveTableData(PlayerExperienceTable,"Curve", PlayerExperienceData, MaximumPlayerLevel);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerExperienceTable is not initialized."));
+		UE_LOG(LogTemp, Error, TEXT("Attack Level Table is not set"));	
 	}
 }
 
@@ -292,7 +282,7 @@ void AZenithGameMode::UpdatePlayerExperience() const
 			IGameInstanceHandle::Execute_UpdatePlayerExperience(InterfacePointer, PlayerExperience, PlayerLevel);
 		}
 	//Update UI
-	HandleUpdateExperience((float)PlayerExperience/ExperienceTable[PlayerLevel], PlayerLevel);
+	HandleUpdateExperience((float)PlayerExperience/PlayerExperienceData[PlayerLevel], PlayerLevel);
 }
 
 void AZenithGameMode::HandleUpdateExperience(const float Percentage, const int32 Level) const
@@ -374,14 +364,13 @@ void AZenithGameMode::RemoveResource_Implementation(const E_ResourceType Resourc
 void AZenithGameMode::AddExperience(const int32 Amount)
 {
 	PlayerExperience += Amount;
-	int32 CurrLeveCap = ExperienceTable[PlayerLevel];
+	int32 CurrLeveCap = PlayerExperienceData[PlayerLevel];
 	if(PlayerExperience >= CurrLeveCap)
 	{
 		PlayerLevel++;
 		PlayerExperience = 0;
-		CurrLeveCap = ExperienceTable[PlayerLevel];
+		CurrLeveCap = PlayerExperienceData[PlayerLevel];
 		OnLevelUp();
-		
 	}
 	if(CurrLeveCap != 0)
 		UpdatePlayerExperience();

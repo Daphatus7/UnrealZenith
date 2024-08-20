@@ -302,4 +302,3 @@ void UAttackComponent::ApplyCriticalStrikeChance(const float Amount)
 	ReinitializeAttackProperty();
 }
 
-

@@ -104,8 +104,8 @@ public:
 
 public:
 	/*------------------------------Attack Component Handle------------------------------------*/
-private:
-	UPROPERTY()
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attack", meta = (AllowPrivateAccess = "true"))
 	TMap<EAttackModifierType, UAttackAttribute *> AttackAttributes;
 public:
 	/**
@@ -174,7 +174,7 @@ public:
 	 * @param Amount 
 	 */
 	virtual void ApplyCriticalStrikeChance(const float Amount) override;
-#pragma endregion 
+#pragma endregion
 };
 
 

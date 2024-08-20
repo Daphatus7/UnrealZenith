@@ -13,7 +13,6 @@ void UAttackAttribute::LoadAttackLevelData()
 	{
 		UE_LOG(LogTemp, Error, TEXT("Attack Level Table is not set"));	
 	}
-	
 }
 
 void UAttackAttribute::LevelUpDataModify()

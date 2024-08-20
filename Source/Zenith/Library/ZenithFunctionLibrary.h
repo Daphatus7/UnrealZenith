@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Types/AttributeStorage.h"
 #include "UObject/Object.h"
 #include "ZenithFunctionLibrary.generated.h"
 
@@ -58,5 +59,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Zenith Function Library/Sort", meta = (Keywords = "Sort"))
 	static void SortVectorArray(const TArray<FVector> Array, const FVector& Origin, TArray<FVector>& SortedArray);
-	
 };
