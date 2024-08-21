@@ -31,6 +31,7 @@ public:
 	// Called every frame
 	
 	virtual void Tick(float DeltaTime) override;
+	UFUNCTION(BlueprintCallable, Category = "Damage")
 	virtual void OnTakingDamage(const float DamageAmount, AActor* DamageCauser);
 	UFUNCTION(BlueprintNativeEvent, Category = "Die")
 	void OnDeath();

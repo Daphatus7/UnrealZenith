@@ -151,6 +151,10 @@
 		{
 			"Name": "RemoteSession",
 			"Enabled": true
+		},
+		{
+			"Name": "ProceduralDungeon",
+			"Enabled": true
 		}
 	],
 	"TargetPlatforms": [

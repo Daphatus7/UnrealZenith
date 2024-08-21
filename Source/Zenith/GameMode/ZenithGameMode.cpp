@@ -82,6 +82,7 @@ void AZenithGameMode::LoadExperienceTable()
 
 void AZenithGameMode::SpawnMonsters(const int NumberOfMonsters)
 {
+	if(SpawnVolumes.Num() <= 0) return;
 	//Number of Monsters to Spawn
 	FMonsterAttribute MonsterToSpawn = GetMonsterToSpawn();
 	//Types of Monsters to Spawn
@@ -104,6 +105,7 @@ void AZenithGameMode::SpawnMonsters(const int NumberOfMonsters)
 
 bool AZenithGameMode::GetRandomSpawnLocation(FVector& SpawnLocation) const
 {
+	if(SpawnVolumes.Num() <= 0) return false;
 	const int32 RandomIndex = FMath::RandRange(0, SpawnVolumes.Num() - 1);
 	if(const ASpawnVolume* SpawnVolume = SpawnVolumes[RandomIndex])
 	{
